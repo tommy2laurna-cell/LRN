@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>LRN — Automatización con IA para PYMES y consorcios</title>
+<meta name="description" content="Construimos agentes de inteligencia artificial que se hacen cargo de las tareas repetitivas de tu equipo. Trabajan 24/7, se integran a tus sistemas, y los resultados se ven en 2 a 3 semanas." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --bg: #F5F1EA;
+    --bg-alt: #EDE7DC;
+    --ink: #1A1815;
+    --ink-soft: #4A4640;
+    --muted: #8A8580;
+    --accent: #B8462C;
+    --accent-hover: #9A3621;
+    --line: #D8D1C4;
+    --serif: 'Instrument Serif', 'Times New Roman', serif;
+    --sans: 'Geist', system-ui, sans-serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--sans);
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.5;
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  /* Subtle grain overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 100;
+    opacity: 0.03;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 32px;
+  }
+
+  /* ============ NAV ============ */
+  nav {
+    padding: 32px 0;
+    border-bottom: 1px solid var(--line);
+    position: sticky;
+    top: 0;
+    background: rgba(245, 241, 234, 0.92);
+    backdrop-filter: blur(12px);
+    z-index: 50;
+  }
+
+  .nav-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+
+  .logo {
+    font-family: var(--serif);
+    font-size: 28px;
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    text-decoration: none;
+  }
+
+  .nav-tag {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--muted);
+    font-weight: 400;
+  }
+
+  /* ============ HERO ============ */
+  .hero {
+    padding: 120px 0 140px;
+    position: relative;
+  }
+
+  .eyebrow {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    color: var(--accent);
+    margin-bottom: 32px;
+    font-weight: 500;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.1s forwards;
+  }
+
+  .hero h1 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(40px, 6.5vw, 88px);
+    line-height: 1.02;
+    letter-spacing: -0.025em;
+    color: var(--ink);
+    margin-bottom: 48px;
+    max-width: 1000px;
+    opacity: 0;
+    animation: fadeUp 0.9s 0.25s forwards;
+  }
+
+  .hero h1 em {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  .hero-sub {
+    font-size: clamp(16px, 1.4vw, 19px);
+    line-height: 1.6;
+    color: var(--ink-soft);
+    max-width: 620px;
+    margin-bottom: 56px;
+    opacity: 0;
+    animation: fadeUp 0.9s 0.45s forwards;
+  }
+
+  .hero-ctas {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    opacity: 0;
+    animation: fadeUp 0.9s 0.6s forwards;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 16px 28px;
+    font-family: var(--sans);
+    font-size: 15px;
+    font-weight: 500;
+    text-decoration: none;
+    border-radius: 2px;
+    transition: all 0.25s ease;
+    cursor: pointer;
+    border: none;
+  }
+
+  .btn-primary {
+    background: var(--ink);
+    color: var(--bg);
+  }
+  .btn-primary:hover {
+    background: var(--accent);
+    transform: translateY(-2px);
+  }
+
+  .btn-secondary {
+    background: transparent;
+    color: var(--ink);
+    border: 1px solid var(--ink);
+  }
+  .btn-secondary:hover {
+    background: var(--ink);
+    color: var(--bg);
+  }
+
+  .btn svg { transition: transform 0.25s ease; }
+  .btn:hover svg { transform: translateX(3px); }
+
+  /* ============ SERVICES ============ */
+  .services {
+    padding: 120px 0;
+    border-top: 1px solid var(--line);
+  }
+
+  .section-header {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 64px;
+    margin-bottom: 96px;
+    align-items: start;
+  }
+
+  .section-label {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    color: var(--muted);
+    padding-top: 14px;
+    border-top: 1px solid var(--ink);
+    display: inline-block;
+    align-self: start;
+  }
+
+  .section-title {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(32px, 4vw, 52px);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+  }
+
+  .section-title em {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  .services-list {
+    list-style: none;
+  }
+
+  .service-item {
+    display: grid;
+    grid-template-columns: 60px 1fr auto;
+    gap: 32px;
+    align-items: center;
+    padding: 36px 0;
+    border-top: 1px solid var(--line);
+    transition: all 0.3s ease;
+    cursor: default;
+  }
+
+  .service-item:last-child { border-bottom: 1px solid var(--line); }
+
+  .service-item:hover {
+    padding-left: 16px;
+  }
+
+  .service-item:hover .service-num {
+    color: var(--accent);
+  }
+
+  .service-num {
+    font-family: var(--serif);
+    font-size: 24px;
+    color: var(--muted);
+    font-weight: 400;
+    transition: color 0.3s ease;
+  }
+
+  .service-title {
+    font-family: var(--serif);
+    font-size: clamp(22px, 2.2vw, 30px);
+    font-weight: 400;
+    color: var(--ink);
+    letter-spacing: -0.015em;
+    line-height: 1.2;
+  }
+
+  .service-desc {
+    font-size: 14px;
+    color: var(--ink-soft);
+    max-width: 360px;
+    text-align: right;
+    line-height: 1.5;
+  }
+
+  /* ============ HOW IT WORKS ============ */
+  .process {
+    padding: 120px 0;
+    background: var(--bg-alt);
+    border-top: 1px solid var(--line);
+  }
+
+  .process-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 64px;
+    margin-top: 72px;
+  }
+
+  .process-step {
+    position: relative;
+  }
+
+  .step-number {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 64px;
+    color: var(--accent);
+    font-weight: 400;
+    line-height: 1;
+    margin-bottom: 24px;
+  }
+
+  .step-title {
+    font-family: var(--serif);
+    font-size: 26px;
+    font-weight: 400;
+    letter-spacing: -0.015em;
+    margin-bottom: 12px;
+    color: var(--ink);
+  }
+
+  .step-text {
+    color: var(--ink-soft);
+    font-size: 15px;
+    line-height: 1.6;
+  }
+
+  /* ============ TARGET ============ */
+  .target {
+    padding: 120px 0;
+    text-align: center;
+  }
+
+  .target-content {
+    max-width: 760px;
+    margin: 0 auto;
+  }
+
+  .target h2 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(28px, 3.5vw, 44px);
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    margin-bottom: 28px;
+  }
+
+  .target h2 em {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  .target p {
+    font-size: 17px;
+    color: var(--ink-soft);
+    line-height: 1.65;
+  }
+
+  /* ============ CTA ============ */
+  .cta {
+    padding: 140px 0;
+    background: var(--ink);
+    color: var(--bg);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cta::before {
+    content: 'LRN';
+    position: absolute;
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 520px;
+    color: var(--bg);
+    opacity: 0.03;
+    bottom: -180px;
+    right: -60px;
+    line-height: 1;
+    pointer-events: none;
+  }
+
+  .cta-content { position: relative; z-index: 1; }
+
+  .cta h2 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(36px, 5vw, 64px);
+    line-height: 1.1;
+    letter-spacing: -0.025em;
+    margin-bottom: 24px;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .cta h2 em {
+    font-style: italic;
+    color: #E89A82;
+  }
+
+  .cta p {
+    color: rgba(245, 241, 234, 0.75);
+    margin-bottom: 48px;
+    font-size: 17px;
+    max-width: 520px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.6;
+  }
+
+  .cta-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .btn-light {
+    background: var(--bg);
+    color: var(--ink);
+  }
+  .btn-light:hover {
+    background: var(--accent);
+    color: var(--bg);
+    transform: translateY(-2px);
+  }
+
+  .btn-outline-light {
+    background: transparent;
+    color: var(--bg);
+    border: 1px solid rgba(245, 241, 234, 0.4);
+  }
+  .btn-outline-light:hover {
+    border-color: var(--bg);
+    background: rgba(245, 241, 234, 0.06);
+  }
+
+  /* ============ FOOTER ============ */
+  footer {
+    padding: 56px 0 40px;
+    background: var(--bg);
+    border-top: 1px solid var(--line);
+  }
+
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 48px;
+    margin-bottom: 56px;
+  }
+
+  .footer-col h4 {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    color: var(--muted);
+    margin-bottom: 16px;
+    font-weight: 500;
+  }
+
+  .footer-col a, .footer-col p {
+    display: block;
+    color: var(--ink);
+    text-decoration: none;
+    font-size: 15px;
+    line-height: 1.7;
+    transition: color 0.2s ease;
+  }
+
+  .footer-col a:hover { color: var(--accent); }
+
+  .footer-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 28px;
+    border-top: 1px solid var(--line);
+    font-size: 13px;
+    color: var(--muted);
+  }
+
+  .footer-logo {
+    font-family: var(--serif);
+    font-size: 22px;
+    color: var(--ink);
+  }
+
+  /* ============ ANIMATIONS ============ */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ============ RESPONSIVE ============ */
+  @media (max-width: 860px) {
+    .container { padding: 0 24px; }
+
+    .hero { padding: 80px 0 100px; }
+    .services, .process, .target { padding: 80px 0; }
+    .cta { padding: 100px 0; }
+
+    .section-header {
+      grid-template-columns: 1fr;
+      gap: 32px;
+      margin-bottom: 64px;
+    }
+
+    .service-item {
+      grid-template-columns: 40px 1fr;
+      gap: 20px;
+      padding: 28px 0;
+    }
+
+    .service-desc {
+      grid-column: 1 / -1;
+      grid-row: 2;
+      text-align: left;
+      padding-left: 60px;
+      max-width: none;
+    }
+
+    .service-item:hover { padding-left: 0; }
+
+    .process-grid {
+      grid-template-columns: 1fr;
+      gap: 48px;
+    }
+
+    .footer-grid {
+      grid-template-columns: 1fr;
+      gap: 32px;
+    }
+
+    .footer-bottom {
+      flex-direction: column;
+      gap: 12px;
+      text-align: center;
+    }
+
+    .hero-ctas, .cta-buttons {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .btn { justify-content: center; }
+
+    .cta::before { font-size: 280px; bottom: -100px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="container nav-inner">
+    <a href="#" class="logo">LRN</a>
+    <span class="nav-tag">Automatización con IA</span>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="container">
+    <div class="eyebrow">Una pregunta directa</div>
+    <h1>¿Cuántas horas semanales pierde tu equipo respondiendo las mismas consultas, haciendo seguimiento manual o procesando información <em>a mano</em>?</h1>
+    <p class="hero-sub">Construimos agentes de inteligencia artificial que se hacen cargo de esas tareas. Trabajan 24/7, se integran al WhatsApp y a los sistemas que ya usás, y los resultados se ven en 2 a 3 semanas.</p>
+    <div class="hero-ctas">
+      <a href="https://wa.me/5491130936305?text=Hola%2C%20me%20gustar%C3%ADa%20saber%20m%C3%A1s%20sobre%20LRN" class="btn btn-primary" target="_blank" rel="noopener">
+        Escribir por WhatsApp
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5"/>
+        </svg>
+      </a>
+      <a href="#contacto" class="btn btn-secondary">
+        Ver cómo funciona
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="services">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-label">Servicios</span>
+      <h2 class="section-title">Lo que <em>automatizamos</em> por vos.</h2>
+    </div>
+
+    <ul class="services-list">
+      <li class="service-item">
+        <span class="service-num">01</span>
+        <span class="service-title">Atención al cliente y consultas frecuentes</span>
+        <span class="service-desc">Bots que responden con la información de tu negocio, las 24 horas.</span>
+      </li>
+      <li class="service-item">
+        <span class="service-num">02</span>
+        <span class="service-title">Calificación y seguimiento de leads</span>
+        <span class="service-desc">Agentes que filtran prospectos y agendan reuniones automáticamente.</span>
+      </li>
+      <li class="service-item">
+        <span class="service-num">03</span>
+        <span class="service-title">Cobranzas con recordatorios automáticos</span>
+        <span class="service-desc">Seguimiento escalonado de morosos, sin tocar el teléfono.</span>
+      </li>
+      <li class="service-item">
+        <span class="service-num">04</span>
+        <span class="service-title">Procesamiento de pedidos, facturas y documentos</span>
+        <span class="service-desc">Extracción y carga automática a tus sistemas existentes.</span>
+      </li>
+      <li class="service-item">
+        <span class="service-num">05</span>
+        <span class="service-title">Reportes semanales automáticos</span>
+        <span class="service-desc">Métricas claves en tu WhatsApp todos los lunes.</span>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="process">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-label">Cómo trabajamos</span>
+      <h2 class="section-title">Tres pasos. Sin <em>complicaciones</em>.</h2>
+    </div>
+
+    <div class="process-grid">
+      <div class="process-step">
+        <div class="step-number">i</div>
+        <h3 class="step-title">Diagnóstico</h3>
+        <p class="step-text">Mapeamos los procesos repetitivos de tu equipo y detectamos las oportunidades de mayor impacto. Sin compromiso.</p>
+      </div>
+      <div class="process-step">
+        <div class="step-number">ii</div>
+        <h3 class="step-title">Implementación</h3>
+        <p class="step-text">Construimos los agentes de IA, los integramos a tus herramientas actuales y los dejamos andando. En dos a tres semanas.</p>
+      </div>
+      <div class="process-step">
+        <div class="step-number">iii</div>
+        <h3 class="step-title">Operación continua</h3>
+        <p class="step-text">Monitoreamos, ajustamos y mejoramos. Vos ves los resultados; nosotros nos ocupamos del resto.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TARGET -->
+<section class="target">
+  <div class="container">
+    <div class="target-content">
+      <span class="section-label" style="margin-bottom: 32px;">Para quién</span>
+      <h2 style="margin-top: 32px;">Diseñado para <em>PYMES y consorcios</em> de Argentina.</h2>
+      <p>Empresas que ya están cansadas de perder tiempo en tareas repetitivas y quieren operar con la eficiencia de una compañía grande, sin sumar headcount.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta" id="contacto">
+  <div class="container cta-content">
+    <h2>Empecemos por un <em>diagnóstico</em>.</h2>
+    <p>Una conversación de 20 minutos para detectar dónde la automatización tiene sentido en tu operación. Sin venta, sin compromiso.</p>
+    <div class="cta-buttons">
+      <a href="https://wa.me/5491130936305?text=Hola%2C%20quiero%20agendar%20un%20diagn%C3%B3stico%20con%20LRN" class="btn btn-light" target="_blank" rel="noopener">
+        Agendar por WhatsApp
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5"/>
+        </svg>
+      </a>
+      <a href="mailto:tommy2.laurna@gmail.com?subject=Consulta%20LRN" class="btn btn-outline-light">
+        Escribir por mail
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <h4>Contacto</h4>
+        <a href="https://wa.me/5491130936305" target="_blank" rel="noopener">WhatsApp · 11 3093-6305</a>
+        <a href="mailto:tommy2.laurna@gmail.com">tommy2.laurna@gmail.com</a>
+      </div>
+      <div class="footer-col">
+        <h4>Servicios</h4>
+        <p>Atención al cliente</p>
+        <p>Calificación de leads</p>
+        <p>Cobranzas automatizadas</p>
+        <p>Procesamiento de documentos</p>
+        <p>Reportes ejecutivos</p>
+      </div>
+      <div class="footer-col">
+        <h4>Cobertura</h4>
+        <p>Argentina · Trabajo remoto</p>
+        <p>PYMES · Consorcios · Administraciones</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span class="footer-logo">LRN</span>
+      <span>© 2026 LRN — Automatización de procesos con inteligencia artificial.</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
