@@ -3,8 +3,23 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>LRN — Automatización con IA para PYMES y consorcios</title>
-<meta name="description" content="Construimos agentes de inteligencia artificial que se hacen cargo de las tareas repetitivas de tu equipo. Trabajan 24/7, se integran a tus sistemas, y los resultados se ven en 2 a 3 semanas." />
+<title>LRN — Automatización con IA y páginas web para PYMES</title>
+<meta name="description" content="Construimos agentes de inteligencia artificial que se hacen cargo de las tareas repetitivas de tu equipo, y diseñamos páginas web con el mismo cuidado. Resultados en 2 a 3 semanas." />
+<meta name="theme-color" content="#F5F1EA" id="metaTheme" />
+
+<script>
+  /* Aplica el tema antes del primer paint para evitar flash */
+  (function () {
+    var d = document.documentElement;
+    d.classList.add('js');
+    var t = null;
+    try { t = localStorage.getItem('lrn-theme'); } catch (e) {}
+    if (t !== 'dark' && t !== 'light') {
+      t = (window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
+    }
+    d.setAttribute('data-theme', t);
+  })();
+</script>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -16,12 +31,42 @@
     --bg-alt: #EDE7DC;
     --ink: #1A1815;
     --ink-soft: #4A4640;
-    --muted: #8A8580;
+    --muted: #6F6A63;
     --accent: #B8462C;
     --accent-hover: #9A3621;
     --line: #D8D1C4;
+    --nav-bg: rgba(245, 241, 234, 0.92);
+    --cta-bg: #1A1815;
+    --cta-ink: #F5F1EA;
+    --cta-soft: rgba(245, 241, 234, 0.75);
+    --cta-em: #E89A82;
+    --cta-line: rgba(245, 241, 234, 0.4);
+    --cta-glow: rgba(245, 241, 234, 0.06);
+    --mock-shadow: 0 30px 70px -30px rgba(26, 24, 21, 0.28);
     --serif: 'Instrument Serif', 'Times New Roman', serif;
     --sans: 'Geist', system-ui, sans-serif;
+    --ease: cubic-bezier(0.22, 1, 0.36, 1);
+    color-scheme: light;
+  }
+
+  [data-theme="dark"] {
+    --bg: #161311;
+    --bg-alt: #1D1916;
+    --ink: #EFEAE2;
+    --ink-soft: #C7C0B6;
+    --muted: #989187;
+    --accent: #E0694A;
+    --accent-hover: #EB7D5C;
+    --line: #2C2723;
+    --nav-bg: rgba(22, 19, 17, 0.9);
+    --cta-bg: #20120C;
+    --cta-ink: #F2EDE5;
+    --cta-soft: rgba(242, 237, 229, 0.72);
+    --cta-em: #F09C7F;
+    --cta-line: rgba(242, 237, 229, 0.35);
+    --cta-glow: rgba(240, 156, 127, 0.05);
+    --mock-shadow: 0 30px 70px -25px rgba(0, 0, 0, 0.6);
+    color-scheme: dark;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -38,7 +83,18 @@
     overflow-x: hidden;
   }
 
-  /* Subtle grain overlay */
+  ::selection { background: var(--accent); color: var(--bg); }
+
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+  section[id] { scroll-margin-top: 96px; }
+
+  /* Transición suave de tema (se activa 500 ms al usar el switch) */
+  html.theming *:not(.toggle-thumb):not(.btn) {
+    transition: background-color 0.45s ease, color 0.45s ease, border-color 0.45s ease !important;
+  }
+
+  /* Grano sutil */
   body::before {
     content: '';
     position: fixed;
@@ -55,21 +111,28 @@
     padding: 0 32px;
   }
 
+  h1, h2, h3 { text-wrap: balance; }
+  p { text-wrap: pretty; }
+
   /* ============ NAV ============ */
   nav {
-    padding: 32px 0;
+    padding: 26px 0;
     border-bottom: 1px solid var(--line);
     position: sticky;
     top: 0;
-    background: rgba(245, 241, 234, 0.92);
+    background: var(--nav-bg);
     backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     z-index: 50;
+    transition: box-shadow 0.4s ease;
   }
+
+  nav.scrolled { box-shadow: 0 10px 30px -18px rgba(0, 0, 0, 0.18); }
 
   .nav-inner {
     display: flex;
     justify-content: space-between;
-    align-items: baseline;
+    align-items: center;
   }
 
   .logo {
@@ -81,13 +144,100 @@
     text-decoration: none;
   }
 
+  .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+  }
+
   .nav-tag {
     font-size: 12px;
     text-transform: uppercase;
     letter-spacing: 0.18em;
     color: var(--muted);
     font-weight: 400;
+    display: inline-block;
+    min-width: 196px;
+    text-align: right;
   }
+
+  /* El tag alterna entre los dos servicios */
+  .nav-tag-cycle {
+    display: inline-block;
+    transition: opacity 0.4s ease, transform 0.4s var(--ease), filter 0.4s ease;
+  }
+
+  .nav-tag-cycle.out {
+    opacity: 0;
+    transform: translateY(-6px);
+    filter: blur(4px);
+  }
+
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  /* ============ THEME SWITCH (estilo iOS) ============ */
+  .theme-toggle {
+    position: relative;
+    width: 50px;
+    height: 28px;
+    flex-shrink: 0;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: var(--bg-alt);
+    cursor: pointer;
+    padding: 0;
+    transition: background-color 0.35s ease, border-color 0.35s ease;
+  }
+
+  .theme-toggle[aria-checked="true"] {
+    background: var(--accent);
+    border-color: var(--accent);
+  }
+
+  .toggle-thumb {
+    position: absolute;
+    top: 50%;
+    left: 2px;
+    width: 22px;
+    height: 22px;
+    border-radius: 999px;
+    background: #FFFDF8;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.28), 0 3px 8px rgba(0, 0, 0, 0.12);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform: translate(0, -50%);
+    transition: transform 0.4s cubic-bezier(0.3, 1.25, 0.5, 1), width 0.25s ease;
+  }
+
+  .theme-toggle[aria-checked="true"] .toggle-thumb {
+    transform: translate(22px, -50%);
+  }
+
+  /* Squish al presionar, como el switch de iOS */
+  .theme-toggle:active .toggle-thumb { width: 26px; }
+  .theme-toggle[aria-checked="true"]:active .toggle-thumb { transform: translate(18px, -50%); }
+
+  .toggle-thumb svg {
+    position: absolute;
+    transition: opacity 0.3s ease, transform 0.45s var(--ease);
+  }
+
+  .icon-sun { color: #B8462C; opacity: 1; transform: rotate(0deg); }
+  .icon-moon { color: #1A1815; opacity: 0; transform: rotate(-90deg); }
+
+  .theme-toggle[aria-checked="true"] .icon-sun { opacity: 0; transform: rotate(90deg); }
+  .theme-toggle[aria-checked="true"] .icon-moon { opacity: 1; transform: rotate(0deg); }
 
   /* ============ HERO ============ */
   .hero {
@@ -103,7 +253,21 @@
     margin-bottom: 32px;
     font-weight: 500;
     opacity: 0;
-    animation: fadeUp 0.8s 0.1s forwards;
+    animation: fadeUp 0.8s var(--ease) 0.1s forwards;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  /* Punto "en vivo" que respira */
+  .eyebrow::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    flex-shrink: 0;
+    animation: pulse 2.4s ease-in-out infinite;
   }
 
   .hero h1 {
@@ -116,7 +280,7 @@
     margin-bottom: 48px;
     max-width: 1000px;
     opacity: 0;
-    animation: fadeUp 0.9s 0.25s forwards;
+    animation: fadeUpSoft 1s var(--ease) 0.25s forwards;
   }
 
   .hero h1 em {
@@ -131,7 +295,7 @@
     max-width: 620px;
     margin-bottom: 56px;
     opacity: 0;
-    animation: fadeUp 0.9s 0.45s forwards;
+    animation: fadeUp 0.9s var(--ease) 0.5s forwards;
   }
 
   .hero-ctas {
@@ -139,7 +303,7 @@
     gap: 16px;
     flex-wrap: wrap;
     opacity: 0;
-    animation: fadeUp 0.9s 0.6s forwards;
+    animation: fadeUp 0.9s var(--ease) 0.65s forwards;
   }
 
   .btn {
@@ -152,19 +316,20 @@
     font-weight: 500;
     text-decoration: none;
     border-radius: 2px;
-    transition: all 0.25s ease;
     cursor: pointer;
     border: none;
+    transform: translate(var(--tx, 0), var(--ty, 0)) scale(var(--press, 1));
+    transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease,
+                transform 0.45s var(--ease);
   }
+
+  .btn:active { --press: 0.97; }
 
   .btn-primary {
     background: var(--ink);
     color: var(--bg);
   }
-  .btn-primary:hover {
-    background: var(--accent);
-    transform: translateY(-2px);
-  }
+  .btn-primary:hover { background: var(--accent); }
 
   .btn-secondary {
     background: transparent;
@@ -179,12 +344,44 @@
   .btn svg { transition: transform 0.25s ease; }
   .btn:hover svg { transform: translateX(3px); }
 
-  /* ============ SERVICES ============ */
-  .services {
-    padding: 120px 0;
+  /* ============ TICKER EDITORIAL ============ */
+  .ticker {
     border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    padding: 18px 0;
+    overflow: hidden;
+    opacity: 0;
+    animation: fadeUp 0.9s var(--ease) 0.85s forwards;
   }
 
+  .ticker-track {
+    display: flex;
+    width: max-content;
+  }
+
+  .ticker:hover .ticker-track { animation-play-state: paused; }
+
+  .ticker-group {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    padding-right: 32px;
+    white-space: nowrap;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    color: var(--muted);
+  }
+
+  .ticker-group i {
+    width: 5px;
+    height: 5px;
+    background: var(--accent);
+    transform: rotate(45deg);
+    flex-shrink: 0;
+  }
+
+  /* ============ SECCIONES (compartido) ============ */
   .section-header {
     display: grid;
     grid-template-columns: 1fr 2fr;
@@ -194,14 +391,26 @@
   }
 
   .section-label {
+    position: relative;
+    display: inline-block;
     font-size: 12px;
     text-transform: uppercase;
     letter-spacing: 0.22em;
     color: var(--muted);
     padding-top: 14px;
-    border-top: 1px solid var(--ink);
-    display: inline-block;
     align-self: start;
+  }
+
+  /* La regla superior se dibuja al entrar en viewport */
+  .section-label::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: var(--ink);
+    transform-origin: left;
   }
 
   .section-title {
@@ -218,9 +427,12 @@
     color: var(--accent);
   }
 
-  .services-list {
-    list-style: none;
+  /* ============ SERVICIOS ============ */
+  .services {
+    padding: 120px 0;
   }
+
+  .services-list { list-style: none; }
 
   .service-item {
     display: grid;
@@ -229,19 +441,14 @@
     align-items: center;
     padding: 36px 0;
     border-top: 1px solid var(--line);
-    transition: all 0.3s ease;
+    transition: padding-left 0.35s var(--ease), border-color 0.45s ease;
     cursor: default;
   }
 
   .service-item:last-child { border-bottom: 1px solid var(--line); }
 
-  .service-item:hover {
-    padding-left: 16px;
-  }
-
-  .service-item:hover .service-num {
-    color: var(--accent);
-  }
+  .service-item:hover { padding-left: 16px; }
+  .service-item:hover .service-num { color: var(--accent); }
 
   .service-num {
     font-family: var(--serif);
@@ -268,7 +475,7 @@
     line-height: 1.5;
   }
 
-  /* ============ HOW IT WORKS ============ */
+  /* ============ CÓMO TRABAJAMOS ============ */
   .process {
     padding: 120px 0;
     background: var(--bg-alt);
@@ -280,10 +487,6 @@
     grid-template-columns: repeat(3, 1fr);
     gap: 64px;
     margin-top: 72px;
-  }
-
-  .process-step {
-    position: relative;
   }
 
   .step-number {
@@ -311,16 +514,204 @@
     line-height: 1.6;
   }
 
-  /* ============ TARGET ============ */
+  /* ============ PÁGINAS WEB (nuevo) ============ */
+  .webs {
+    padding: 120px 0;
+    border-top: 1px solid var(--line);
+    overflow: hidden;
+  }
+
+  .webs-grid {
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: clamp(48px, 6vw, 96px);
+    align-items: center;
+  }
+
+  .webs-copy .section-label { margin-bottom: 28px; }
+
+  .webs-copy .section-title { margin-bottom: 24px; }
+
+  .webs-text {
+    font-size: 16px;
+    color: var(--ink-soft);
+    line-height: 1.65;
+    max-width: 480px;
+  }
+
+  .webs-points {
+    list-style: none;
+    margin-top: 36px;
+  }
+
+  .webs-points li {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    padding: 14px 0;
+    border-top: 1px solid var(--line);
+    font-size: 15px;
+    color: var(--ink);
+  }
+
+  .webs-points li:last-child { border-bottom: 1px solid var(--line); }
+
+  .webs-points li::before {
+    content: '—';
+    color: var(--accent);
+    flex-shrink: 0;
+  }
+
+  .link-arrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 40px;
+    color: var(--ink);
+    font-size: 15px;
+    font-weight: 500;
+    text-decoration: none;
+    position: relative;
+    transition: color 0.3s ease;
+  }
+
+  .link-arrow::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -6px;
+    width: 100%;
+    height: 1px;
+    background: var(--accent);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.45s var(--ease);
+  }
+
+  .link-arrow:hover { color: var(--accent); }
+  .link-arrow:hover::after { transform: scaleX(1); }
+  .link-arrow svg { transition: transform 0.3s ease; }
+  .link-arrow:hover svg { transform: translateX(4px); }
+
+  /* Mini navegador: una web dentro de la web */
+  .mock-frame {
+    background: var(--bg);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    box-shadow: var(--mock-shadow);
+    overflow: hidden;
+    transition: transform 0.6s var(--ease), box-shadow 0.6s var(--ease), border-color 0.45s ease;
+  }
+
+  .web-mock:hover .mock-frame { transform: translateY(-8px); }
+
+  /* Vaivén sutil del mockup, como tarjeta flotante */
+  @media (prefers-reduced-motion: no-preference) {
+    .mock-float { animation: floaty 5.5s ease-in-out infinite alternate; }
+  }
+
+  @keyframes floaty {
+    from { transform: translateY(0); }
+    to { transform: translateY(-9px); }
+  }
+
+  .mock-bar {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 12px 16px;
+    background: var(--bg-alt);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .mock-dots { display: flex; gap: 6px; }
+
+  .mock-dots i {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--line);
+  }
+
+  .mock-url {
+    flex: 1;
+    text-align: center;
+    font-size: 11px;
+    letter-spacing: 0.04em;
+    color: var(--muted);
+    background: var(--bg);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 4px 14px;
+    margin-right: 33px; /* compensa los puntos para centrar la URL */
+  }
+
+  .mock-body {
+    padding: clamp(28px, 4vw, 48px) clamp(24px, 3.5vw, 44px) clamp(32px, 4vw, 52px);
+  }
+
+  .mock-eyebrow {
+    display: block;
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.24em;
+    color: var(--accent);
+    font-weight: 500;
+    margin-bottom: 14px;
+  }
+
+  .mock-title {
+    display: block;
+    font-family: var(--serif);
+    font-size: clamp(22px, 2.4vw, 30px);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    margin-bottom: 18px;
+    max-width: 300px;
+  }
+
+  .mock-title em { font-style: italic; color: var(--accent); }
+
+  .mock-line {
+    display: block;
+    height: 8px;
+    border-radius: 4px;
+    background: var(--line);
+    margin-bottom: 10px;
+    opacity: 0.8;
+  }
+
+  .mock-line-short { width: 62%; margin-bottom: 0; }
+
+  .mock-cta {
+    display: flex;
+    gap: 10px;
+    margin-top: 26px;
+  }
+
+  .mock-btn-solid, .mock-btn-ghost {
+    width: 74px;
+    height: 24px;
+    border-radius: 2px;
+  }
+
+  .mock-btn-solid { background: var(--ink); }
+  .mock-btn-ghost { border: 1px solid var(--ink); }
+
+  /* ============ PARA QUIÉN ============ */
   .target {
     padding: 120px 0;
     text-align: center;
+    border-top: 1px solid var(--line);
   }
 
   .target-content {
     max-width: 760px;
     margin: 0 auto;
   }
+
+  .target .section-label { margin-bottom: 32px; }
 
   .target h2 {
     font-family: var(--serif);
@@ -345,25 +736,25 @@
   /* ============ CTA ============ */
   .cta {
     padding: 140px 0;
-    background: var(--ink);
-    color: var(--bg);
+    background: var(--cta-bg);
+    color: var(--cta-ink);
     text-align: center;
     position: relative;
     overflow: hidden;
   }
 
-  .cta::before {
-    content: 'LRN';
+  .cta-watermark {
     position: absolute;
     font-family: var(--serif);
     font-style: italic;
     font-size: 520px;
-    color: var(--bg);
-    opacity: 0.03;
+    color: var(--cta-glow);
     bottom: -180px;
     right: -60px;
     line-height: 1;
     pointer-events: none;
+    user-select: none;
+    will-change: transform;
   }
 
   .cta-content { position: relative; z-index: 1; }
@@ -382,11 +773,11 @@
 
   .cta h2 em {
     font-style: italic;
-    color: #E89A82;
+    color: var(--cta-em);
   }
 
   .cta p {
-    color: rgba(245, 241, 234, 0.75);
+    color: var(--cta-soft);
     margin-bottom: 48px;
     font-size: 17px;
     max-width: 520px;
@@ -403,22 +794,21 @@
   }
 
   .btn-light {
-    background: var(--bg);
-    color: var(--ink);
+    background: var(--cta-ink);
+    color: var(--cta-bg);
   }
   .btn-light:hover {
     background: var(--accent);
     color: var(--bg);
-    transform: translateY(-2px);
   }
 
   .btn-outline-light {
     background: transparent;
-    color: var(--bg);
-    border: 1px solid rgba(245, 241, 234, 0.4);
+    color: var(--cta-ink);
+    border: 1px solid var(--cta-line);
   }
   .btn-outline-light:hover {
-    border-color: var(--bg);
+    border-color: var(--cta-ink);
     background: rgba(245, 241, 234, 0.06);
   }
 
@@ -472,10 +862,147 @@
     color: var(--ink);
   }
 
-  /* ============ ANIMATIONS ============ */
+  /* ============ ANIMACIONES ============ */
   @keyframes fadeUp {
     from { opacity: 0; transform: translateY(20px); }
     to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeUpSoft {
+    from { opacity: 0; transform: translateY(26px); filter: blur(5px); }
+    to { opacity: 1; transform: translateY(0); filter: blur(0); }
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.35; transform: scale(0.8); }
+  }
+
+  @keyframes marquee {
+    to { transform: translateX(-25%); }
+  }
+
+  /* Reveal on scroll: solo se oculta si hay JS y el usuario acepta movimiento */
+  @media (prefers-reduced-motion: no-preference) {
+    html.js .reveal {
+      opacity: 0;
+      transform: translateY(26px);
+      transition: opacity 0.9s var(--ease) var(--d, 0s), transform 0.9s var(--ease) var(--d, 0s);
+    }
+
+    html.js .reveal.in-view {
+      opacity: 1;
+      transform: none;
+    }
+
+    /* Los service-item conservan su hover de padding */
+    html.js .service-item.reveal {
+      transition: opacity 0.9s var(--ease) var(--d, 0s), transform 0.9s var(--ease) var(--d, 0s),
+                  padding-left 0.35s var(--ease), border-color 0.45s ease;
+    }
+
+    /* El link-arrow conserva su transición de color en hover */
+    html.js .link-arrow.reveal {
+      transition: opacity 0.9s var(--ease) var(--d, 0s), transform 0.9s var(--ease) var(--d, 0s),
+                  color 0.3s ease;
+    }
+
+    /* Stagger */
+    .services-list .service-item:nth-child(2) { --d: 0.08s; }
+    .services-list .service-item:nth-child(3) { --d: 0.16s; }
+    .services-list .service-item:nth-child(4) { --d: 0.24s; }
+    .services-list .service-item:nth-child(5) { --d: 0.32s; }
+
+    .process-grid .process-step:nth-child(2) { --d: 0.12s; }
+    .process-grid .process-step:nth-child(3) { --d: 0.24s; }
+
+    .web-mock { --d: 0.15s; }
+
+    /* Escalonado interno de las secciones */
+    .cta p.reveal { --d: 0.15s; }
+    .cta .cta-buttons.reveal { --d: 0.28s; }
+    .target p.reveal { --d: 0.12s; }
+    .webs-text.reveal { --d: 0.1s; }
+    .webs-points.reveal { --d: 0.18s; }
+    .webs .link-arrow.reveal { --d: 0.26s; }
+
+    /* El mockup entra asentándose, con un toque de escala */
+    html.js .web-mock.reveal {
+      transform: translateY(40px) scale(0.96);
+      transition: opacity 1s var(--ease) var(--d, 0s), transform 1s var(--ease) var(--d, 0s);
+    }
+
+    html.js .web-mock.reveal.in-view { transform: none; }
+
+    /* Marquee del ticker (solo con JS, que clona los grupos) */
+    html.js .ticker-track { animation: marquee 40s linear infinite; }
+
+    /* Titulares que se arman palabra por palabra */
+    html.js .wsplit .w {
+      display: inline-block;
+      opacity: 0;
+      transform: translateY(0.55em);
+      filter: blur(6px);
+      transition: opacity 0.7s var(--ease), transform 0.7s var(--ease), filter 0.7s var(--ease);
+      transition-delay: calc(var(--wi, 0) * 45ms);
+    }
+
+    html.js .wsplit.in-view .w {
+      opacity: 1;
+      transform: translateY(0);
+      filter: blur(0);
+    }
+
+    /* Oculto hasta que JS termina de partir las palabras (evita flash) */
+    html.js .wsplit { opacity: 0; }
+    html.js .wsplit.split-ready { opacity: 1; }
+
+    html.js .hero h1.wsplit { animation: none; }
+
+    html.js .hero h1.wsplit .w {
+      transition-delay: calc(0.25s + var(--wi, 0) * 40ms);
+    }
+
+    /* La regla del label se dibuja de izquierda a derecha */
+    html.js .section-label.reveal::before,
+    html.js .reveal .section-label::before {
+      transform: scaleX(0);
+      transition: transform 1.1s var(--ease) 0.2s;
+    }
+    html.js .section-label.reveal.in-view::before,
+    html.js .reveal.in-view .section-label::before {
+      transform: scaleX(1);
+    }
+
+    /* Cascada interna del mini navegador */
+    html.js .web-mock .mock-body > * {
+      opacity: 0;
+      transform: translateY(14px);
+      transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
+    }
+    html.js .web-mock.in-view .mock-body > * { opacity: 1; transform: none; }
+    html.js .web-mock.in-view .mock-body > *:nth-child(1) { transition-delay: 0.35s; }
+    html.js .web-mock.in-view .mock-body > *:nth-child(2) { transition-delay: 0.45s; }
+    html.js .web-mock.in-view .mock-body > *:nth-child(3) { transition-delay: 0.55s; }
+    html.js .web-mock.in-view .mock-body > *:nth-child(4) { transition-delay: 0.62s; }
+    html.js .web-mock.in-view .mock-body > *:nth-child(5) { transition-delay: 0.69s; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+
+    .eyebrow, .hero h1, .hero-sub, .hero-ctas, .ticker {
+      animation: none;
+      opacity: 1;
+    }
+
+    .eyebrow::before, .ticker-track, .mock-float {
+      animation: none !important;
+    }
+
+    .toggle-thumb, .theme-toggle, .btn, .mock-frame, .service-item, .nav-tag-cycle {
+      transition: none !important;
+    }
   }
 
   /* ============ RESPONSIVE ============ */
@@ -483,7 +1010,7 @@
     .container { padding: 0 24px; }
 
     .hero { padding: 80px 0 100px; }
-    .services, .process, .target { padding: 80px 0; }
+    .services, .process, .webs, .target { padding: 80px 0; }
     .cta { padding: 100px 0; }
 
     .section-header {
@@ -513,6 +1040,13 @@
       gap: 48px;
     }
 
+    .webs-grid {
+      grid-template-columns: 1fr;
+      gap: 56px;
+    }
+
+    .webs-text { max-width: none; }
+
     .footer-grid {
       grid-template-columns: 1fr;
       gap: 32px;
@@ -531,17 +1065,34 @@
 
     .btn { justify-content: center; }
 
-    .cta::before { font-size: 280px; bottom: -100px; }
+    .cta-watermark { font-size: 280px; bottom: -100px; }
+  }
+
+  @media (max-width: 560px) {
+    .nav-tag { display: none; }
   }
 </style>
 </head>
 <body>
 
 <!-- NAV -->
-<nav>
+<nav id="nav">
   <div class="container nav-inner">
     <a href="#" class="logo">LRN</a>
-    <span class="nav-tag">Automatización con IA</span>
+    <div class="nav-right">
+      <span class="nav-tag"><span class="sr-only">Automatización con IA y diseño de páginas web</span><span class="nav-tag-cycle" id="navTagCycle" aria-hidden="true">Automatización con IA</span></span>
+      <button class="theme-toggle" id="themeToggle" role="switch" aria-checked="false" aria-label="Modo oscuro">
+        <span class="toggle-thumb">
+          <svg class="icon-sun" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="4.2"/>
+            <path d="M12 2v2.4M12 19.6V22M4.9 4.9l1.7 1.7M17.4 17.4l1.7 1.7M2 12h2.4M19.6 12H22M4.9 19.1l1.7-1.7M17.4 6.6l1.7-1.7"/>
+          </svg>
+          <svg class="icon-moon" width="11" height="11" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M21 13.2A8.6 8.6 0 0 1 10.8 3a8.6 8.6 0 1 0 10.2 10.2Z"/>
+          </svg>
+        </span>
+      </button>
+    </div>
   </div>
 </nav>
 
@@ -549,52 +1100,68 @@
 <section class="hero">
   <div class="container">
     <div class="eyebrow">Una pregunta directa</div>
-    <h1>¿Cuántas horas semanales pierde tu equipo respondiendo las mismas consultas, haciendo seguimiento manual o procesando información <em>a mano</em>?</h1>
+    <h1 class="wsplit">¿Cuántas horas semanales pierde tu equipo respondiendo las mismas consultas, haciendo seguimiento manual o procesando información <em>a mano?</em></h1>
     <p class="hero-sub">Construimos agentes de inteligencia artificial que se hacen cargo de esas tareas. Trabajan 24/7, se integran al WhatsApp y a los sistemas que ya usás, y los resultados se ven en 2 a 3 semanas.</p>
     <div class="hero-ctas">
       <a href="https://wa.me/5491130936305?text=Hola%2C%20me%20gustar%C3%ADa%20saber%20m%C3%A1s%20sobre%20LRN" class="btn btn-primary" target="_blank" rel="noopener">
         Escribir por WhatsApp
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
           <path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5"/>
         </svg>
       </a>
-      <a href="#contacto" class="btn btn-secondary">
+      <a href="#proceso" class="btn btn-secondary">
         Ver cómo funciona
       </a>
     </div>
   </div>
 </section>
 
-<!-- SERVICES -->
+<!-- TICKER -->
+<div class="ticker" aria-hidden="true">
+  <div class="ticker-track" id="tickerTrack">
+    <div class="ticker-group">
+      <span>Atención al cliente</span><i></i>
+      <span>Cobranzas</span><i></i>
+      <span>Reportes semanales</span><i></i>
+      <span>Calificación de leads</span><i></i>
+      <span>Facturas y documentos</span><i></i>
+      <span>Páginas web</span><i></i>
+      <span>Agenda de reuniones</span><i></i>
+      <span>WhatsApp 24/7</span><i></i>
+    </div>
+  </div>
+</div>
+
+<!-- SERVICIOS -->
 <section class="services">
   <div class="container">
     <div class="section-header">
-      <span class="section-label">Servicios</span>
-      <h2 class="section-title">Lo que <em>automatizamos</em> por vos.</h2>
+      <span class="section-label reveal">Servicios</span>
+      <h2 class="section-title wsplit">Lo que <em>automatizamos</em> por vos.</h2>
     </div>
 
     <ul class="services-list">
-      <li class="service-item">
+      <li class="service-item reveal">
         <span class="service-num">01</span>
         <span class="service-title">Atención al cliente y consultas frecuentes</span>
         <span class="service-desc">Bots que responden con la información de tu negocio, las 24 horas.</span>
       </li>
-      <li class="service-item">
+      <li class="service-item reveal">
         <span class="service-num">02</span>
         <span class="service-title">Calificación y seguimiento de leads</span>
         <span class="service-desc">Agentes que filtran prospectos y agendan reuniones automáticamente.</span>
       </li>
-      <li class="service-item">
+      <li class="service-item reveal">
         <span class="service-num">03</span>
         <span class="service-title">Cobranzas con recordatorios automáticos</span>
-        <span class="service-desc">Seguimiento escalonado de morosos, sin tocar el teléfono.</span>
+        <span class="service-desc">Seguimiento escalonado de pagos pendientes, sin tocar el teléfono.</span>
       </li>
-      <li class="service-item">
+      <li class="service-item reveal">
         <span class="service-num">04</span>
         <span class="service-title">Procesamiento de pedidos, facturas y documentos</span>
         <span class="service-desc">Extracción y carga automática a tus sistemas existentes.</span>
       </li>
-      <li class="service-item">
+      <li class="service-item reveal">
         <span class="service-num">05</span>
         <span class="service-title">Reportes semanales automáticos</span>
         <span class="service-desc">Métricas claves en tu WhatsApp todos los lunes.</span>
@@ -603,26 +1170,26 @@
   </div>
 </section>
 
-<!-- HOW IT WORKS -->
-<section class="process">
+<!-- CÓMO TRABAJAMOS -->
+<section class="process" id="proceso">
   <div class="container">
     <div class="section-header">
-      <span class="section-label">Cómo trabajamos</span>
-      <h2 class="section-title">Tres pasos. Sin <em>complicaciones</em>.</h2>
+      <span class="section-label reveal">Cómo trabajamos</span>
+      <h2 class="section-title wsplit">Tres pasos. Sin <em>complicaciones.</em></h2>
     </div>
 
     <div class="process-grid">
-      <div class="process-step">
+      <div class="process-step reveal">
         <div class="step-number">i</div>
         <h3 class="step-title">Diagnóstico</h3>
         <p class="step-text">Mapeamos los procesos repetitivos de tu equipo y detectamos las oportunidades de mayor impacto. Sin compromiso.</p>
       </div>
-      <div class="process-step">
+      <div class="process-step reveal">
         <div class="step-number">ii</div>
         <h3 class="step-title">Implementación</h3>
         <p class="step-text">Construimos los agentes de IA, los integramos a tus herramientas actuales y los dejamos andando. En dos a tres semanas.</p>
       </div>
-      <div class="process-step">
+      <div class="process-step reveal">
         <div class="step-number">iii</div>
         <h3 class="step-title">Operación continua</h3>
         <p class="step-text">Monitoreamos, ajustamos y mejoramos. Vos ves los resultados; nosotros nos ocupamos del resto.</p>
@@ -631,26 +1198,72 @@
   </div>
 </section>
 
-<!-- TARGET -->
+<!-- PÁGINAS WEB (nuevo servicio) -->
+<section class="webs" id="webs">
+  <div class="container">
+    <div class="webs-grid">
+      <div class="webs-copy">
+        <span class="section-label reveal">Nuevo servicio</span>
+        <h2 class="section-title wsplit">También diseñamos <em>páginas web.</em></h2>
+        <p class="webs-text reveal">La misma obsesión que ponemos en tus procesos, aplicada a la cara visible de tu negocio. Páginas rápidas, claras y hechas a medida — como esta que estás viendo.</p>
+        <ul class="webs-points reveal">
+          <li>Diseño a medida, sin plantillas genéricas</li>
+          <li>Lista en días, no en meses</li>
+          <li>Pensada para el celular y para Google</li>
+        </ul>
+        <a href="https://wa.me/5491130936305?text=Hola%2C%20quiero%20una%20p%C3%A1gina%20web%20para%20mi%20negocio" class="link-arrow reveal" target="_blank" rel="noopener">
+          Quiero una página así
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5"/>
+          </svg>
+        </a>
+      </div>
+
+      <div class="web-mock reveal" aria-hidden="true">
+        <div class="mock-float">
+        <div class="mock-frame">
+          <div class="mock-bar">
+            <span class="mock-dots"><i></i><i></i><i></i></span>
+            <span class="mock-url">tu-negocio.com.ar</span>
+          </div>
+          <div class="mock-body">
+            <span class="mock-eyebrow">Tu negocio</span>
+            <span class="mock-title">Abierto las <em>24 horas</em>.</span>
+            <span class="mock-line"></span>
+            <span class="mock-line mock-line-short"></span>
+            <span class="mock-cta">
+              <span class="mock-btn-solid"></span>
+              <span class="mock-btn-ghost"></span>
+            </span>
+          </div>
+        </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PARA QUIÉN -->
 <section class="target">
   <div class="container">
     <div class="target-content">
-      <span class="section-label" style="margin-bottom: 32px;">Para quién</span>
-      <h2 style="margin-top: 32px;">Diseñado para <em>PYMES y consorcios</em> de Argentina.</h2>
-      <p>Empresas que ya están cansadas de perder tiempo en tareas repetitivas y quieren operar con la eficiencia de una compañía grande, sin sumar headcount.</p>
+      <span class="section-label reveal">Para quién</span>
+      <h2 class="wsplit">Diseñado para <em>PYMES</em> de Argentina.</h2>
+      <p class="reveal">Negocios que ya están cansados de perder tiempo en tareas repetitivas y quieren operar con la eficiencia de una compañía grande, sin sumar estructura.</p>
     </div>
   </div>
 </section>
 
 <!-- CTA -->
 <section class="cta" id="contacto">
+  <span class="cta-watermark" aria-hidden="true">LRN</span>
   <div class="container cta-content">
-    <h2>Empecemos por un <em>diagnóstico</em>.</h2>
-    <p>Una conversación de 20 minutos para detectar dónde la automatización tiene sentido en tu operación. Sin venta, sin compromiso.</p>
-    <div class="cta-buttons">
+    <h2 class="wsplit">Empecemos por un <em>diagnóstico.</em></h2>
+    <p class="reveal">Una conversación de 20 minutos para detectar dónde la automatización tiene sentido en tu operación. Sin venta, sin compromiso.</p>
+    <div class="cta-buttons reveal">
       <a href="https://wa.me/5491130936305?text=Hola%2C%20quiero%20agendar%20un%20diagn%C3%B3stico%20con%20LRN" class="btn btn-light" target="_blank" rel="noopener">
         Agendar por WhatsApp
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
           <path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5"/>
         </svg>
       </a>
@@ -677,11 +1290,12 @@
         <p>Cobranzas automatizadas</p>
         <p>Procesamiento de documentos</p>
         <p>Reportes ejecutivos</p>
+        <p>Diseño de páginas web</p>
       </div>
       <div class="footer-col">
         <h4>Cobertura</h4>
         <p>Argentina · Trabajo remoto</p>
-        <p>PYMES · Consorcios · Administraciones</p>
+        <p>PYMES · Comercios · Profesionales</p>
       </div>
     </div>
     <div class="footer-bottom">
@@ -690,6 +1304,154 @@
     </div>
   </div>
 </footer>
+
+<script>
+(function () {
+  var doc = document.documentElement;
+  var reduce = window.matchMedia ? matchMedia('(prefers-reduced-motion: reduce)') : { matches: false };
+
+  /* ---------- Switch de tema ---------- */
+  var toggle = document.getElementById('themeToggle');
+  var metaTheme = document.getElementById('metaTheme');
+  var themingTimer = null;
+
+  function syncTheme() {
+    var dark = doc.getAttribute('data-theme') === 'dark';
+    toggle.setAttribute('aria-checked', String(dark));
+    metaTheme.setAttribute('content', dark ? '#161311' : '#F5F1EA');
+  }
+
+  toggle.addEventListener('click', function () {
+    var next = doc.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    if (!reduce.matches) {
+      doc.classList.add('theming');
+      clearTimeout(themingTimer);
+      themingTimer = setTimeout(function () { doc.classList.remove('theming'); }, 500);
+    }
+    doc.setAttribute('data-theme', next);
+    try { localStorage.setItem('lrn-theme', next); } catch (e) {}
+    syncTheme();
+  });
+
+  syncTheme();
+
+  /* ---------- Titulares palabra por palabra ---------- */
+  function splitWords(el) {
+    var wi = 0;
+    function walk(node) {
+      Array.prototype.slice.call(node.childNodes).forEach(function (child) {
+        if (child.nodeType === 3) {
+          var frag = document.createDocumentFragment();
+          child.textContent.split(/(\s+)/).forEach(function (part) {
+            if (!part) return;
+            if (/^\s+$/.test(part)) {
+              frag.appendChild(document.createTextNode(part));
+            } else {
+              var s = document.createElement('span');
+              s.className = 'w';
+              s.style.setProperty('--wi', wi++);
+              s.textContent = part;
+              frag.appendChild(s);
+            }
+          });
+          node.replaceChild(frag, child);
+        } else if (child.nodeType === 1) {
+          walk(child);
+        }
+      });
+    }
+    walk(el);
+  }
+
+  if (!reduce.matches) {
+    document.querySelectorAll('.wsplit').forEach(function (el) {
+      splitWords(el);
+      el.classList.add('split-ready');
+    });
+  }
+
+  /* ---------- Ticker: clona los grupos para el loop infinito ---------- */
+  var track = document.getElementById('tickerTrack');
+  if (track && track.firstElementChild) {
+    var group = track.firstElementChild;
+    for (var i = 0; i < 3; i++) {
+      track.appendChild(group.cloneNode(true));
+    }
+  }
+
+  /* ---------- El tag del nav alterna entre los dos servicios ---------- */
+  var cycleEl = document.getElementById('navTagCycle');
+  if (cycleEl && !reduce.matches) {
+    var labels = ['Automatización con IA', 'Diseño de páginas web'];
+    var ci = 0;
+    setInterval(function () {
+      cycleEl.classList.add('out');
+      setTimeout(function () {
+        ci = (ci + 1) % labels.length;
+        cycleEl.textContent = labels[ci];
+        cycleEl.classList.remove('out');
+      }, 400);
+    }, 4200);
+  }
+
+  /* ---------- Reveal on scroll ---------- */
+  var revealEls = document.querySelectorAll('.reveal, .wsplit');
+  if ('IntersectionObserver' in window && !reduce.matches) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in-view');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+    revealEls.forEach(function (el) { io.observe(el); });
+  } else {
+    revealEls.forEach(function (el) { el.classList.add('in-view'); });
+  }
+
+  /* ---------- Nav: sombra sutil al scrollear + parallax de la marca de agua ---------- */
+  var nav = document.getElementById('nav');
+  var watermark = document.querySelector('.cta-watermark');
+  var ctaBand = document.getElementById('contacto');
+  var ticking = false;
+
+  function onFrame() {
+    ticking = false;
+    nav.classList.toggle('scrolled', window.scrollY > 4);
+    if (watermark && !reduce.matches) {
+      var r = ctaBand.getBoundingClientRect();
+      if (r.bottom > 0 && r.top < window.innerHeight) {
+        var p = (r.top + r.height / 2 - window.innerHeight / 2) / window.innerHeight;
+        watermark.style.transform = 'translate3d(0,' + (p * 70).toFixed(1) + 'px,0)';
+      }
+    }
+  }
+
+  window.addEventListener('scroll', function () {
+    if (!ticking) { requestAnimationFrame(onFrame); ticking = true; }
+  }, { passive: true });
+  onFrame();
+
+  /* ---------- Botones magnéticos (solo mouse, sin reduced-motion) ---------- */
+  var finePointer = window.matchMedia && matchMedia('(hover: hover) and (pointer: fine)').matches;
+  if (finePointer && !reduce.matches) {
+    document.querySelectorAll('.btn').forEach(function (btn) {
+      btn.addEventListener('mousemove', function (e) {
+        var r = btn.getBoundingClientRect();
+        var dx = (e.clientX - r.left - r.width / 2) / r.width;
+        var dy = (e.clientY - r.top - r.height / 2) / r.height;
+        btn.style.setProperty('--tx', (dx * 8).toFixed(1) + 'px');
+        btn.style.setProperty('--ty', (dy * 6).toFixed(1) + 'px');
+      });
+      btn.addEventListener('mouseleave', function () {
+        btn.style.setProperty('--tx', '0px');
+        btn.style.setProperty('--ty', '0px');
+      });
+    });
+  }
+})();
+</script>
 
 </body>
 </html>
