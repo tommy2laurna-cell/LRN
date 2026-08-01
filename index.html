@@ -3,9 +3,26 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>LRN — Automatización con IA y páginas web para PYMES</title>
-<meta name="description" content="Construimos agentes de inteligencia artificial que se hacen cargo de las tareas repetitivas de tu equipo, y diseñamos páginas web con el mismo cuidado. Resultados en 2 a 3 semanas." />
+<title>LRN — Automatización con IA, páginas web y CRM a medida para PYMES</title>
+<meta name="description" content="Agentes de IA que absorben las tareas repetitivas de tu equipo, páginas web a medida y tu propio CRM de pago único. Para PYMES de Argentina." />
 <meta name="theme-color" content="#F5F1EA" id="metaTheme" />
+<link rel="canonical" href="https://lrn.com.ar/" />
+
+<!-- Open Graph / redes -->
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="LRN" />
+<meta property="og:locale" content="es_AR" />
+<meta property="og:url" content="https://lrn.com.ar/" />
+<meta property="og:title" content="LRN — Automatización con IA, páginas web y CRM a medida" />
+<meta property="og:description" content="Agentes de IA que absorben las tareas repetitivas de tu equipo, páginas web a medida y tu propio CRM de pago único. Para PYMES de Argentina." />
+<!-- TODO: subir og.png (1200x630) al hosting y descomentar:
+<meta property="og:image" content="https://lrn.com.ar/og.png" /> -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="LRN — Automatización con IA, páginas web y CRM a medida" />
+<meta name="twitter:description" content="Agentes de IA que absorben las tareas repetitivas de tu equipo, páginas web a medida y tu propio CRM de pago único." />
+
+<!-- Favicon: monograma inline, sin archivo externo -->
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='10' fill='%231A1815'/%3E%3Ctext x='32' y='45' font-family='Georgia,serif' font-size='34' fill='%23B8462C' text-anchor='middle'%3EL%3C/text%3E%3C/svg%3E" />
 
 <script>
   /* Aplica el tema antes del primer paint para evitar flash */
@@ -35,6 +52,17 @@
     --accent: #B8462C;
     --accent-hover: #9A3621;
     --line: #D8D1C4;
+
+    /* Tonos derivados (la paleta base de arriba no se toca) */
+    --muted-alt: #5C574F;              /* muted legible sobre --bg-alt (AA) */
+    --surface: #FFFDF9;                /* superficie del tablero CRM */
+    --line-soft: rgba(26, 24, 21, 0.07);
+    --chip-bg: rgba(184, 70, 44, 0.10);
+    --chip-ink: #B8462C;
+    --halo-a: rgba(184, 70, 44, 0.11);
+    --halo-b: rgba(184, 70, 44, 0.05);
+    --dot: rgba(26, 24, 21, 0.10);
+
     --nav-bg: rgba(245, 241, 234, 0.92);
     --cta-bg: #1A1815;
     --cta-ink: #F5F1EA;
@@ -42,10 +70,14 @@
     --cta-em: #E89A82;
     --cta-line: rgba(245, 241, 234, 0.4);
     --cta-glow: rgba(245, 241, 234, 0.06);
+    --cta-ring: rgba(245, 241, 234, 0.28);
     --mock-shadow: 0 30px 70px -30px rgba(26, 24, 21, 0.28);
+    --board-shadow: 0 40px 90px -40px rgba(26, 24, 21, 0.34);
+
     --serif: 'Instrument Serif', 'Times New Roman', serif;
     --sans: 'Geist', system-ui, sans-serif;
     --ease: cubic-bezier(0.22, 1, 0.36, 1);
+    --crm-row: 54px;
     color-scheme: light;
   }
 
@@ -58,6 +90,16 @@
     --accent: #E0694A;
     --accent-hover: #EB7D5C;
     --line: #2C2723;
+
+    --muted-alt: #A9A198;
+    --surface: #211C19;
+    --line-soft: rgba(239, 234, 226, 0.08);
+    --chip-bg: rgba(224, 105, 74, 0.14);
+    --chip-ink: #EB7D5C;
+    --halo-a: rgba(224, 105, 74, 0.13);
+    --halo-b: rgba(224, 105, 74, 0.06);
+    --dot: rgba(239, 234, 226, 0.08);
+
     --nav-bg: rgba(22, 19, 17, 0.9);
     --cta-bg: #20120C;
     --cta-ink: #F2EDE5;
@@ -65,7 +107,9 @@
     --cta-em: #F09C7F;
     --cta-line: rgba(242, 237, 229, 0.35);
     --cta-glow: rgba(240, 156, 127, 0.05);
+    --cta-ring: rgba(242, 237, 229, 0.2);
     --mock-shadow: 0 30px 70px -25px rgba(0, 0, 0, 0.6);
+    --board-shadow: 0 40px 90px -35px rgba(0, 0, 0, 0.7);
     color-scheme: dark;
   }
 
@@ -88,6 +132,22 @@
   :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 
   section[id] { scroll-margin-top: 96px; }
+
+  /* Salto al contenido para navegación por teclado */
+  .skip {
+    position: absolute;
+    left: 16px;
+    top: -60px;
+    z-index: 200;
+    background: var(--ink);
+    color: var(--bg);
+    padding: 12px 18px;
+    border-radius: 2px;
+    font-size: 14px;
+    text-decoration: none;
+    transition: top 0.25s var(--ease);
+  }
+  .skip:focus { top: 16px; }
 
   /* Transición suave de tema (se activa 500 ms al usar el switch) */
   html.theming *:not(.toggle-thumb):not(.btn) {
@@ -116,7 +176,7 @@
 
   /* ============ NAV ============ */
   nav {
-    padding: 26px 0;
+    padding: 22px 0;
     border-bottom: 1px solid var(--line);
     position: sticky;
     top: 0;
@@ -128,6 +188,19 @@
   }
 
   nav.scrolled { box-shadow: 0 10px 30px -18px rgba(0, 0, 0, 0.18); }
+
+  /* Barra de progreso de lectura: 2px, solo transform */
+  .nav-progress {
+    position: absolute;
+    left: 0;
+    bottom: -1px;
+    width: 100%;
+    height: 2px;
+    background: var(--accent);
+    transform: scaleX(0);
+    transform-origin: left;
+    will-change: transform;
+  }
 
   .nav-inner {
     display: flex;
@@ -157,11 +230,11 @@
     color: var(--muted);
     font-weight: 400;
     display: inline-block;
-    min-width: 196px;
+    min-width: 210px;
     text-align: right;
   }
 
-  /* El tag alterna entre los dos servicios */
+  /* El tag rota entre las tres líneas de servicio */
   .nav-tag-cycle {
     display: inline-block;
     transition: opacity 0.4s ease, transform 0.4s var(--ease), filter 0.4s ease;
@@ -241,16 +314,42 @@
 
   /* ============ HERO ============ */
   .hero {
-    padding: 120px 0 140px;
+    padding: 96px 0 104px;
     position: relative;
+    overflow: hidden;
   }
+
+  /* Luz cálida que deriva sobre el papel. Solo transform, sin filter. */
+  .hero-halo {
+    position: absolute;
+    inset: -25% -12% -10% -12%;
+    pointer-events: none;
+    z-index: 0;
+    background:
+      radial-gradient(58% 52% at 24% 34%, var(--halo-a), transparent 68%),
+      radial-gradient(46% 46% at 80% 10%, var(--halo-b), transparent 70%);
+  }
+
+  /* Grilla de puntos, estática y enmascarada */
+  .hero-dots {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    background-image: radial-gradient(var(--dot) 1px, transparent 1px);
+    background-size: 26px 26px;
+    -webkit-mask-image: radial-gradient(72% 62% at 18% 24%, #000 0%, transparent 76%);
+    mask-image: radial-gradient(72% 62% at 18% 24%, #000 0%, transparent 76%);
+  }
+
+  .hero > .container { position: relative; z-index: 1; }
 
   .eyebrow {
     font-size: 12px;
     text-transform: uppercase;
     letter-spacing: 0.22em;
     color: var(--accent);
-    margin-bottom: 32px;
+    margin-bottom: 28px;
     font-weight: 500;
     opacity: 0;
     animation: fadeUp 0.8s var(--ease) 0.1s forwards;
@@ -273,29 +372,30 @@
   .hero h1 {
     font-family: var(--serif);
     font-weight: 400;
-    font-size: clamp(40px, 6.5vw, 88px);
-    line-height: 1.02;
+    font-size: clamp(38px, 5.4vw, 74px);
+    line-height: 1.06;
     letter-spacing: -0.025em;
     color: var(--ink);
-    margin-bottom: 48px;
-    max-width: 1000px;
+    margin-bottom: 36px;
+    max-width: 22ch;
     opacity: 0;
-    animation: fadeUpSoft 1s var(--ease) 0.25s forwards;
+    animation: fadeUpSoft 1s var(--ease) 0.2s forwards;
   }
 
   .hero h1 em {
     font-style: italic;
     color: var(--accent);
+    padding-bottom: 0.06em;   /* holgura para descendentes en itálica */
   }
 
   .hero-sub {
     font-size: clamp(16px, 1.4vw, 19px);
     line-height: 1.6;
     color: var(--ink-soft);
-    max-width: 620px;
-    margin-bottom: 56px;
+    max-width: 560px;
+    margin-bottom: 44px;
     opacity: 0;
-    animation: fadeUp 0.9s var(--ease) 0.5s forwards;
+    animation: fadeUp 0.9s var(--ease) 0.45s forwards;
   }
 
   .hero-ctas {
@@ -303,17 +403,19 @@
     gap: 16px;
     flex-wrap: wrap;
     opacity: 0;
-    animation: fadeUp 0.9s var(--ease) 0.65s forwards;
+    animation: fadeUp 0.9s var(--ease) 0.6s forwards;
   }
 
   .btn {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     gap: 10px;
     padding: 16px 28px;
     font-family: var(--sans);
     font-size: 15px;
     font-weight: 500;
+    white-space: nowrap;
     text-decoration: none;
     border-radius: 2px;
     cursor: pointer;
@@ -344,19 +446,23 @@
   .btn svg { transition: transform 0.25s ease; }
   .btn:hover svg { transform: translateX(3px); }
 
-  /* ============ TICKER EDITORIAL ============ */
+  /* ============ TICKER ============ */
   .ticker {
     border-top: 1px solid var(--line);
     border-bottom: 1px solid var(--line);
     padding: 18px 0;
     overflow: hidden;
     opacity: 0;
-    animation: fadeUp 0.9s var(--ease) 0.85s forwards;
+    animation: fadeUp 0.9s var(--ease) 0.8s forwards;
+    /* Bordes que se desvanecen — port en máscara del progressive-blur */
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
+    mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
   }
 
   .ticker-track {
     display: flex;
     width: max-content;
+    will-change: transform;
   }
 
   .ticker:hover .ticker-track { animation-play-state: paused; }
@@ -382,42 +488,43 @@
   }
 
   /* ============ SECCIONES (compartido) ============ */
-  .section-header {
-    display: grid;
-    grid-template-columns: 1fr 2fr;
-    gap: 64px;
-    margin-bottom: 96px;
-    align-items: start;
+  .section-head {
+    max-width: 20ch;
+    margin-bottom: 80px;
+  }
+
+  .section-head.wide { max-width: 28ch; }
+
+  /* Regla hairline que se dibuja al entrar en viewport.
+     Reemplaza al eyebrow en las secciones que no lo necesitan. */
+  .rule {
+    display: block;
+    width: 100%;
+    max-width: 180px;
+    height: 1px;
+    background: var(--ink);
+    margin-bottom: 26px;
+    transform-origin: left;
   }
 
   .section-label {
-    position: relative;
     display: inline-block;
     font-size: 12px;
     text-transform: uppercase;
     letter-spacing: 0.22em;
     color: var(--muted);
-    padding-top: 14px;
-    align-self: start;
+    margin-bottom: 22px;
   }
 
-  /* La regla superior se dibuja al entrar en viewport */
-  .section-label::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 1px;
-    background: var(--ink);
-    transform-origin: left;
-  }
+  .on-alt .section-label,
+  .on-alt .metric-label,
+  .on-alt .fineprint { color: var(--muted-alt); }
 
   .section-title {
     font-family: var(--serif);
     font-weight: 400;
     font-size: clamp(32px, 4vw, 52px);
-    line-height: 1.1;
+    line-height: 1.12;
     letter-spacing: -0.02em;
     color: var(--ink);
   }
@@ -425,21 +532,73 @@
   .section-title em {
     font-style: italic;
     color: var(--accent);
+    padding-bottom: 0.06em;
+  }
+
+  .fineprint {
+    font-size: 12.5px;
+    line-height: 1.6;
+    color: var(--muted);
+  }
+
+  /* ============ BANDA DE PRUEBA ============ */
+  .proof {
+    padding: 72px 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .proof-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 48px;
+  }
+
+  .metric-num {
+    font-family: var(--serif);
+    font-size: clamp(46px, 6vw, 78px);
+    line-height: 1;
+    letter-spacing: -0.03em;
+    color: var(--ink);
+    display: block;
+    margin-bottom: 14px;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .metric-num .u {
+    font-family: var(--sans);
+    font-size: 0.3em;
+    letter-spacing: 0.02em;
+    color: var(--accent);
+    vertical-align: super;
+    margin-left: 2px;
+  }
+
+  .metric-label {
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--muted);
+    max-width: 26ch;
+  }
+
+  .proof-note {
+    margin-top: 44px;
+    padding-top: 20px;
+    border-top: 1px solid var(--line);
+    max-width: 74ch;
   }
 
   /* ============ SERVICIOS ============ */
-  .services {
-    padding: 120px 0;
-  }
+  .services { padding: 116px 0; }
 
   .services-list { list-style: none; }
 
   .service-item {
+    position: relative;
     display: grid;
     grid-template-columns: 60px 1fr auto;
     gap: 32px;
     align-items: center;
-    padding: 36px 0;
+    padding: 32px 0;
     border-top: 1px solid var(--line);
     transition: padding-left 0.35s var(--ease), border-color 0.45s ease;
     cursor: default;
@@ -447,6 +606,21 @@
 
   .service-item:last-child { border-bottom: 1px solid var(--line); }
 
+  /* Hairline en acento que recorre la fila al pasar el mouse */
+  .service-item::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: -1px;
+    width: 100%;
+    height: 1px;
+    background: var(--accent);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.55s var(--ease);
+  }
+
+  .service-item:hover::after { transform: scaleX(1); }
   .service-item:hover { padding-left: 16px; }
   .service-item:hover .service-num { color: var(--accent); }
 
@@ -456,6 +630,7 @@
     color: var(--muted);
     font-weight: 400;
     transition: color 0.3s ease;
+    font-variant-numeric: tabular-nums;
   }
 
   .service-title {
@@ -477,7 +652,7 @@
 
   /* ============ CÓMO TRABAJAMOS ============ */
   .process {
-    padding: 120px 0;
+    padding: 116px 0;
     background: var(--bg-alt);
     border-top: 1px solid var(--line);
   }
@@ -486,7 +661,6 @@
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 64px;
-    margin-top: 72px;
   }
 
   .step-number {
@@ -495,8 +669,8 @@
     font-size: 64px;
     color: var(--accent);
     font-weight: 400;
-    line-height: 1;
-    margin-bottom: 24px;
+    line-height: 1.1;
+    margin-bottom: 20px;
   }
 
   .step-title {
@@ -514,9 +688,16 @@
     line-height: 1.6;
   }
 
-  /* ============ PÁGINAS WEB (nuevo) ============ */
+  .process-note {
+    margin-top: 64px;
+    padding-top: 22px;
+    border-top: 1px solid var(--line);
+    max-width: 76ch;
+  }
+
+  /* ============ PÁGINAS WEB ============ */
   .webs {
-    padding: 120px 0;
+    padding: 116px 0;
     border-top: 1px solid var(--line);
     overflow: hidden;
   }
@@ -528,8 +709,6 @@
     align-items: center;
   }
 
-  .webs-copy .section-label { margin-bottom: 28px; }
-
   .webs-copy .section-title { margin-bottom: 24px; }
 
   .webs-text {
@@ -539,24 +718,25 @@
     max-width: 480px;
   }
 
-  .webs-points {
+  .points {
     list-style: none;
     margin-top: 36px;
   }
 
-  .webs-points li {
+  .points li {
     display: flex;
     align-items: baseline;
     gap: 14px;
     padding: 14px 0;
     border-top: 1px solid var(--line);
     font-size: 15px;
+    line-height: 1.5;
     color: var(--ink);
   }
 
-  .webs-points li:last-child { border-bottom: 1px solid var(--line); }
+  .points li:last-child { border-bottom: 1px solid var(--line); }
 
-  .webs-points li::before {
+  .points li::before {
     content: '—';
     color: var(--accent);
     flex-shrink: 0;
@@ -605,14 +785,13 @@
 
   .web-mock:hover .mock-frame { transform: translateY(-8px); }
 
-  /* Vaivén sutil del mockup, como tarjeta flotante */
   @media (prefers-reduced-motion: no-preference) {
     .mock-float { animation: floaty 5.5s ease-in-out infinite alternate; }
   }
 
   @keyframes floaty {
-    from { transform: translateY(0); }
-    to { transform: translateY(-9px); }
+    from { transform: translate3d(0, 0, 0); }
+    to { transform: translate3d(0, -9px, 0); }
   }
 
   .mock-bar {
@@ -644,6 +823,9 @@
     border-radius: 999px;
     padding: 4px 14px;
     margin-right: 33px; /* compensa los puntos para centrar la URL */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   .mock-body {
@@ -664,7 +846,7 @@
     display: block;
     font-family: var(--serif);
     font-size: clamp(22px, 2.4vw, 30px);
-    line-height: 1.1;
+    line-height: 1.15;
     letter-spacing: -0.02em;
     color: var(--ink);
     margin-bottom: 18px;
@@ -699,9 +881,217 @@
   .mock-btn-solid { background: var(--ink); }
   .mock-btn-ghost { border: 1px solid var(--ink); }
 
+  /* ============ CRM A MEDIDA ============ */
+  .crm {
+    padding: 116px 0;
+    background: var(--bg-alt);
+    border-top: 1px solid var(--line);
+    overflow: hidden;
+  }
+
+  /* El encabezado del CRM no se encajona: el título respira angosto,
+     el párrafo de intro corre ancho. */
+  .crm .section-head { max-width: none; }
+  .crm .section-title { max-width: 22ch; }
+
+  .crm-intro {
+    font-size: 17px;
+    line-height: 1.65;
+    color: var(--ink-soft);
+    max-width: 62ch;
+    margin-top: 24px;
+  }
+
+  .crm-grid {
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: clamp(48px, 5.5vw, 88px);
+    align-items: center;
+    margin-top: 76px;
+  }
+
+  /* El diferencial, como declaración tipográfica */
+  .crm-once {
+    border-top: 2px solid var(--accent);
+    padding-top: 24px;
+    margin-bottom: 36px;
+  }
+
+  .crm-once h3 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(30px, 3.4vw, 44px);
+    line-height: 1.12;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    margin-bottom: 12px;
+  }
+
+  .crm-once h3 em {
+    font-style: italic;
+    color: var(--accent);
+    padding-bottom: 0.06em;
+  }
+
+  .crm-once p {
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--ink-soft);
+    max-width: 34ch;
+  }
+
+  /* --- Tablero --- */
+  .crm-board {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    box-shadow: var(--board-shadow);
+    overflow: hidden;
+  }
+
+  .crm-body { padding: 22px clamp(18px, 2.2vw, 26px) 0; }
+
+  .crm-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 20px;
+  }
+
+  .crm-h-title {
+    font-family: var(--serif);
+    font-size: 22px;
+    letter-spacing: -0.015em;
+    color: var(--ink);
+  }
+
+  .crm-h-meta {
+    font-size: 11.5px;
+    color: var(--muted);
+    letter-spacing: 0.04em;
+  }
+
+  /* Fuente de entrada + rail por donde "cae" el lead */
+  .crm-feed { margin-bottom: 4px; }
+
+  .crm-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--chip-ink);
+    background: var(--chip-bg);
+    border-radius: 999px;
+    padding: 6px 12px;
+  }
+
+  .crm-live {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: currentColor;
+    flex-shrink: 0;
+  }
+
+  .crm-rail {
+    display: block;
+    position: relative;
+    width: 1px;
+    height: 26px;
+    margin-left: 18px;
+    background: linear-gradient(var(--line), transparent);
+  }
+
+  .crm-dot {
+    position: absolute;
+    left: -3px;
+    top: 0;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--accent);
+    opacity: 0;
+    will-change: transform, opacity;
+  }
+
+  .crm-cols {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr auto;
+    gap: 16px;
+    align-items: center;
+    padding-bottom: 10px;
+    font-size: 10.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: var(--muted);
+  }
+
+  .crm-viewport {
+    height: calc(var(--crm-row) * 4);
+    overflow: hidden;
+    border-top: 1px solid var(--line);
+  }
+
+  .crm-rows {
+    list-style: none;
+    will-change: transform;
+  }
+
+  .crm-row {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr auto;
+    gap: 16px;
+    align-items: center;
+    height: var(--crm-row);
+    border-bottom: 1px solid var(--line-soft);
+  }
+
+  .crm-name {
+    font-size: 14.5px;
+    color: var(--ink);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .crm-origin {
+    font-size: 12.5px;
+    color: var(--muted);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .crm-state {
+    font-size: 11px;
+    letter-spacing: 0.04em;
+    border-radius: 999px;
+    padding: 5px 11px;
+    white-space: nowrap;
+  }
+
+  .s-nuevo { color: var(--chip-ink); background: var(--chip-bg); }
+  .s-curso { color: var(--ink-soft); background: var(--bg-alt); }
+  .s-ganado { color: var(--bg); background: var(--ink); }
+
+  .crm-foot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 14px clamp(18px, 2.2vw, 26px);
+    border-top: 1px solid var(--line);
+    background: var(--bg-alt);
+    font-size: 11.5px;
+    color: var(--muted-alt);
+  }
+
   /* ============ PARA QUIÉN ============ */
   .target {
-    padding: 120px 0;
+    padding: 116px 0;
     text-align: center;
     border-top: 1px solid var(--line);
   }
@@ -711,13 +1101,13 @@
     margin: 0 auto;
   }
 
-  .target .section-label { margin-bottom: 32px; }
+  .target .rule { margin: 0 auto 26px; max-width: 120px; transform-origin: center; }
 
   .target h2 {
     font-family: var(--serif);
     font-weight: 400;
     font-size: clamp(28px, 3.5vw, 44px);
-    line-height: 1.2;
+    line-height: 1.18;
     letter-spacing: -0.02em;
     margin-bottom: 28px;
   }
@@ -725,6 +1115,7 @@
   .target h2 em {
     font-style: italic;
     color: var(--accent);
+    padding-bottom: 0.06em;
   }
 
   .target p {
@@ -757,6 +1148,26 @@
     will-change: transform;
   }
 
+  /* Anillos concéntricos: port en CSS del "ripple". Solo transform + opacity. */
+  .cta-rings {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+  }
+
+  .cta-ring {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: min(78vw, 820px);
+    aspect-ratio: 1;
+    border: 1px solid var(--cta-ring);
+    border-radius: 50%;
+    transform: translate(-50%, -50%) scale(0.32);
+    opacity: 0;
+  }
+
   .cta-content { position: relative; z-index: 1; }
 
   .cta h2 {
@@ -774,13 +1185,14 @@
   .cta h2 em {
     font-style: italic;
     color: var(--cta-em);
+    padding-bottom: 0.06em;
   }
 
   .cta p {
     color: var(--cta-soft);
-    margin-bottom: 48px;
+    margin-bottom: 44px;
     font-size: 17px;
-    max-width: 520px;
+    max-width: 540px;
     margin-left: auto;
     margin-right: auto;
     line-height: 1.6;
@@ -826,7 +1238,7 @@
     margin-bottom: 56px;
   }
 
-  .footer-col h4 {
+  .footer-col h2 {
     font-size: 11px;
     text-transform: uppercase;
     letter-spacing: 0.22em;
@@ -835,7 +1247,7 @@
     font-weight: 500;
   }
 
-  .footer-col a, .footer-col p {
+  .footer-col a, .footer-col p, .footer-col li {
     display: block;
     color: var(--ink);
     text-decoration: none;
@@ -844,12 +1256,15 @@
     transition: color 0.2s ease;
   }
 
+  .footer-col ul { list-style: none; }
+
   .footer-col a:hover { color: var(--accent); }
 
   .footer-bottom {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 16px;
     padding-top: 28px;
     border-top: 1px solid var(--line);
     font-size: 13px;
@@ -869,8 +1284,8 @@
   }
 
   @keyframes fadeUpSoft {
-    from { opacity: 0; transform: translateY(26px); filter: blur(5px); }
-    to { opacity: 1; transform: translateY(0); filter: blur(0); }
+    from { opacity: 0; transform: translateY(26px); }
+    to { opacity: 1; transform: translateY(0); }
   }
 
   @keyframes pulse {
@@ -879,10 +1294,33 @@
   }
 
   @keyframes marquee {
-    to { transform: translateX(-25%); }
+    to { transform: translate3d(-25%, 0, 0); }
   }
 
-  /* Reveal on scroll: solo se oculta si hay JS y el usuario acepta movimiento */
+  @keyframes haloDrift {
+    from { transform: translate3d(0, 0, 0) scale(1); }
+    to { transform: translate3d(-3%, 2.5%, 0) scale(1.09); }
+  }
+
+  @keyframes ripple {
+    0%   { transform: translate(-50%, -50%) scale(0.32); opacity: 0; }
+    14%  { opacity: 1; }
+    100% { transform: translate(-50%, -50%) scale(1.28); opacity: 0; }
+  }
+
+  @keyframes dotDrop {
+    0%   { opacity: 0; transform: translate3d(0, 0, 0) scale(0.5); }
+    18%  { opacity: 1; transform: translate3d(0, 0, 0) scale(1); }
+    78%  { opacity: 1; }
+    100% { opacity: 0; transform: translate3d(0, var(--dd, 22px), 0) scale(0.7); }
+  }
+
+  @keyframes rowIn {
+    from { opacity: 0; transform: translate3d(-10px, 0, 0); }
+    to   { opacity: 1; transform: none; }
+  }
+
+  /* Todo lo que se mueve vive acá dentro. Con reduce, nada de esto existe. */
   @media (prefers-reduced-motion: no-preference) {
     html.js .reveal {
       opacity: 0;
@@ -908,71 +1346,72 @@
     }
 
     /* Stagger */
-    .services-list .service-item:nth-child(2) { --d: 0.08s; }
-    .services-list .service-item:nth-child(3) { --d: 0.16s; }
-    .services-list .service-item:nth-child(4) { --d: 0.24s; }
-    .services-list .service-item:nth-child(5) { --d: 0.32s; }
+    .services-list .service-item:nth-child(2) { --d: 0.06s; }
+    .services-list .service-item:nth-child(3) { --d: 0.12s; }
+    .services-list .service-item:nth-child(4) { --d: 0.18s; }
+    .services-list .service-item:nth-child(5) { --d: 0.24s; }
+    .services-list .service-item:nth-child(6) { --d: 0.30s; }
+    .services-list .service-item:nth-child(7) { --d: 0.36s; }
 
     .process-grid .process-step:nth-child(2) { --d: 0.12s; }
     .process-grid .process-step:nth-child(3) { --d: 0.24s; }
 
+    .proof-item:nth-child(2) { --d: 0.1s; }
+    .proof-item:nth-child(3) { --d: 0.2s; }
+
     .web-mock { --d: 0.15s; }
+    .crm-board-wrap { --d: 0.12s; }
 
     /* Escalonado interno de las secciones */
     .cta p.reveal { --d: 0.15s; }
     .cta .cta-buttons.reveal { --d: 0.28s; }
     .target p.reveal { --d: 0.12s; }
     .webs-text.reveal { --d: 0.1s; }
-    .webs-points.reveal { --d: 0.18s; }
+    .webs .points.reveal { --d: 0.18s; }
     .webs .link-arrow.reveal { --d: 0.26s; }
+    .crm-once.reveal { --d: 0.1s; }
+    .crm .points.reveal { --d: 0.2s; }
+    .crm .link-arrow.reveal { --d: 0.3s; }
 
-    /* El mockup entra asentándose, con un toque de escala */
-    html.js .web-mock.reveal {
-      transform: translateY(40px) scale(0.96);
+    /* Los mockups entran asentándose, con un toque de escala */
+    html.js .web-mock.reveal,
+    html.js .crm-board-wrap.reveal {
+      transform: translateY(40px) scale(0.965);
       transition: opacity 1s var(--ease) var(--d, 0s), transform 1s var(--ease) var(--d, 0s);
     }
 
-    html.js .web-mock.reveal.in-view { transform: none; }
+    html.js .web-mock.reveal.in-view,
+    html.js .crm-board-wrap.reveal.in-view { transform: none; }
 
     /* Marquee del ticker (solo con JS, que clona los grupos) */
-    html.js .ticker-track { animation: marquee 40s linear infinite; }
+    html.js .ticker-track { animation: marquee 42s linear infinite; }
 
     /* Titulares que se arman palabra por palabra */
     html.js .wsplit .w {
       display: inline-block;
       opacity: 0;
-      transform: translateY(0.55em);
-      filter: blur(6px);
-      transition: opacity 0.7s var(--ease), transform 0.7s var(--ease), filter 0.7s var(--ease);
-      transition-delay: calc(var(--wi, 0) * 45ms);
+      transform: translateY(0.5em);
+      transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
+      transition-delay: calc(var(--wi, 0) * 42ms);
     }
 
     html.js .wsplit.in-view .w {
       opacity: 1;
       transform: translateY(0);
-      filter: blur(0);
     }
 
-    /* Oculto hasta que JS termina de partir las palabras (evita flash) */
+    /* Oculto hasta que JS termina de partir las palabras (evita flash).
+       El failsafe de JS garantiza que .split-ready siempre llegue. */
     html.js .wsplit { opacity: 0; }
     html.js .wsplit.split-ready { opacity: 1; }
 
     html.js .hero h1.wsplit { animation: none; }
+    html.js .hero h1.wsplit .w { transition-delay: calc(0.15s + var(--wi, 0) * 38ms); }
 
-    html.js .hero h1.wsplit .w {
-      transition-delay: calc(0.25s + var(--wi, 0) * 40ms);
-    }
-
-    /* La regla del label se dibuja de izquierda a derecha */
-    html.js .section-label.reveal::before,
-    html.js .reveal .section-label::before {
-      transform: scaleX(0);
-      transition: transform 1.1s var(--ease) 0.2s;
-    }
-    html.js .section-label.reveal.in-view::before,
-    html.js .reveal.in-view .section-label::before {
-      transform: scaleX(1);
-    }
+    /* La regla hairline se dibuja de izquierda a derecha */
+    html.js .rule { transform: scaleX(0); transition: transform 1.1s var(--ease) 0.15s; }
+    html.js .reveal.in-view .rule,
+    html.js .rule.reveal.in-view { transform: scaleX(1); }
 
     /* Cascada interna del mini navegador */
     html.js .web-mock .mock-body > * {
@@ -986,6 +1425,23 @@
     html.js .web-mock.in-view .mock-body > *:nth-child(3) { transition-delay: 0.55s; }
     html.js .web-mock.in-view .mock-body > *:nth-child(4) { transition-delay: 0.62s; }
     html.js .web-mock.in-view .mock-body > *:nth-child(5) { transition-delay: 0.69s; }
+
+    /* Lead que llega solo */
+    .crm-row.is-new .crm-name,
+    .crm-row.is-new .crm-origin,
+    .crm-row.is-new .crm-state { animation: rowIn 0.7s var(--ease) both; }
+    .crm-row.is-new .crm-state { animation-delay: 0.08s; }
+    .crm-dot.go { animation: dotDrop 0.8s var(--ease); }
+
+    /* Anillos del cierre */
+    .cta-ring { animation: ripple 9s ease-out infinite; }
+    .cta-ring:nth-child(2) { animation-delay: 3s; }
+    .cta-ring:nth-child(3) { animation-delay: 6s; }
+
+    /* Luz del hero: solo en desktop, donde hay presupuesto */
+    @media (min-width: 861px) {
+      .hero-halo { will-change: transform; animation: haloDrift 26s ease-in-out infinite alternate; }
+    }
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -996,33 +1452,43 @@
       opacity: 1;
     }
 
-    .eyebrow::before, .ticker-track, .mock-float {
+    .eyebrow::before, .ticker-track, .mock-float, .hero-halo, .cta-ring, .crm-dot {
       animation: none !important;
     }
 
-    .toggle-thumb, .theme-toggle, .btn, .mock-frame, .service-item, .nav-tag-cycle {
+    /* Con reduce los anillos no aparecen en absoluto */
+    .cta-rings { display: none; }
+
+    .toggle-thumb, .theme-toggle, .btn, .mock-frame, .service-item, .nav-tag-cycle,
+    .nav-progress, .crm-rows {
       transition: none !important;
     }
   }
 
   /* ============ RESPONSIVE ============ */
+  @media (max-width: 1024px) {
+    .crm-grid { grid-template-columns: 1fr; gap: 56px; }
+    .crm-copy { order: 2; }
+    .crm-board-wrap { order: 1; }
+  }
+
   @media (max-width: 860px) {
     .container { padding: 0 24px; }
 
-    .hero { padding: 80px 0 100px; }
-    .services, .process, .webs, .target { padding: 80px 0; }
+    .hero { padding: 64px 0 80px; }
+    .services, .process, .webs, .crm, .target { padding: 80px 0; }
+    .proof { padding: 56px 0; }
     .cta { padding: 100px 0; }
 
-    .section-header {
-      grid-template-columns: 1fr;
-      gap: 32px;
-      margin-bottom: 64px;
-    }
+    .section-head { margin-bottom: 56px; max-width: none; }
+
+    .proof-grid { grid-template-columns: 1fr; gap: 36px; }
+    .metric-label { max-width: none; }
 
     .service-item {
       grid-template-columns: 40px 1fr;
       gap: 20px;
-      padding: 28px 0;
+      padding: 26px 0;
     }
 
     .service-desc {
@@ -1035,22 +1501,16 @@
 
     .service-item:hover { padding-left: 0; }
 
-    .process-grid {
-      grid-template-columns: 1fr;
-      gap: 48px;
-    }
+    .process-grid { grid-template-columns: 1fr; gap: 44px; }
+    .process-note { margin-top: 44px; }
 
-    .webs-grid {
-      grid-template-columns: 1fr;
-      gap: 56px;
-    }
-
+    .webs-grid { grid-template-columns: 1fr; gap: 56px; }
     .webs-text { max-width: none; }
 
-    .footer-grid {
-      grid-template-columns: 1fr;
-      gap: 32px;
-    }
+    .crm-grid { margin-top: 52px; }
+    .crm-once p { max-width: none; }
+
+    .footer-grid { grid-template-columns: 1fr; gap: 32px; }
 
     .footer-bottom {
       flex-direction: column;
@@ -1063,9 +1523,15 @@
       align-items: stretch;
     }
 
-    .btn { justify-content: center; }
-
     .cta-watermark { font-size: 280px; bottom: -100px; }
+  }
+
+  @media (max-width: 620px) {
+    :root { --crm-row: 50px; }
+    .crm-c-origin { display: none; }
+    .crm-cols, .crm-row { grid-template-columns: 1fr auto; }
+    .crm-h-meta { display: none; }
+    .hero-dots { background-size: 22px 22px; }
   }
 
   @media (max-width: 560px) {
@@ -1075,12 +1541,14 @@
 </head>
 <body>
 
+<a class="skip" href="#contenido">Ir al contenido</a>
+
 <!-- NAV -->
 <nav id="nav">
   <div class="container nav-inner">
-    <a href="#" class="logo">LRN</a>
+    <a href="#" class="logo" aria-label="LRN, inicio">LRN</a>
     <div class="nav-right">
-      <span class="nav-tag"><span class="sr-only">Automatización con IA y diseño de páginas web</span><span class="nav-tag-cycle" id="navTagCycle" aria-hidden="true">Automatización con IA</span></span>
+      <span class="nav-tag"><span class="sr-only">Automatización con IA, diseño de páginas web y CRM a medida</span><span class="nav-tag-cycle" id="navTagCycle" aria-hidden="true">Automatización con IA</span></span>
       <button class="theme-toggle" id="themeToggle" role="switch" aria-checked="false" aria-label="Modo oscuro">
         <span class="toggle-thumb">
           <svg class="icon-sun" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true">
@@ -1094,14 +1562,19 @@
       </button>
     </div>
   </div>
+  <span class="nav-progress" id="navProgress" aria-hidden="true"></span>
 </nav>
+
+<main id="contenido">
 
 <!-- HERO -->
 <section class="hero">
+  <span class="hero-halo" aria-hidden="true"></span>
+  <span class="hero-dots" aria-hidden="true"></span>
   <div class="container">
-    <div class="eyebrow">Una pregunta directa</div>
-    <h1 class="wsplit">¿Cuántas horas semanales pierde tu equipo respondiendo las mismas consultas, haciendo seguimiento manual o procesando información <em>a mano?</em></h1>
-    <p class="hero-sub">Construimos agentes de inteligencia artificial que se hacen cargo de esas tareas. Trabajan 24/7, se integran al WhatsApp y a los sistemas que ya usás, y los resultados se ven en 2 a 3 semanas.</p>
+    <p class="eyebrow">Una pregunta directa</p>
+    <h1 class="wsplit">¿Cuántas horas por semana pierde tu equipo haciendo lo mismo <em>una y otra vez?</em></h1>
+    <p class="hero-sub">Construimos agentes de IA que se hacen cargo de esas tareas: trabajan 24/7, dentro del WhatsApp y de los sistemas que ya usás.</p>
     <div class="hero-ctas">
       <a href="https://wa.me/5491130936305?text=Hola%2C%20me%20gustar%C3%ADa%20saber%20m%C3%A1s%20sobre%20LRN" class="btn btn-primary" target="_blank" rel="noopener">
         Escribir por WhatsApp
@@ -1109,9 +1582,7 @@
           <path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5"/>
         </svg>
       </a>
-      <a href="#proceso" class="btn btn-secondary">
-        Ver cómo funciona
-      </a>
+      <a href="#proceso" class="btn btn-secondary">Ver cómo funciona</a>
     </div>
   </div>
 </section>
@@ -1122,34 +1593,57 @@
     <div class="ticker-group">
       <span>Atención al cliente</span><i></i>
       <span>Cobranzas</span><i></i>
-      <span>Reportes semanales</span><i></i>
+      <span>Reportes ejecutivos</span><i></i>
       <span>Calificación de leads</span><i></i>
       <span>Facturas y documentos</span><i></i>
       <span>Páginas web</span><i></i>
-      <span>Agenda de reuniones</span><i></i>
+      <span>CRM a medida</span><i></i>
       <span>WhatsApp 24/7</span><i></i>
     </div>
   </div>
 </div>
 
-<!-- SERVICIOS -->
-<section class="services">
+<!-- PRUEBA -->
+<section class="proof">
   <div class="container">
-    <div class="section-header">
-      <span class="section-label reveal">Servicios</span>
-      <h2 class="section-title wsplit">Lo que <em>automatizamos</em> por vos.</h2>
+    <div class="proof-grid">
+      <div class="proof-item reveal">
+        <span class="metric-num"><span data-count>15</span>–<span data-count>40</span></span>
+        <p class="metric-label">horas semanales de trabajo operativo que recupera el equipo.</p>
+      </div>
+      <div class="proof-item reveal">
+        <span class="metric-num"><span data-count>30</span>–<span data-count>50</span><span class="u">%</span></span>
+        <p class="metric-label">menos costos administrativos, desde el primer mes.</p>
+      </div>
+      <div class="proof-item reveal">
+        <span class="metric-num"><span data-count>2</span>–<span data-count>3</span></span>
+        <p class="metric-label">semanas hasta tener la primera automatización funcionando.</p>
+      </div>
+    </div>
+    <div class="proof-note reveal">
+      <p class="fineprint">Promedios observados en clientes de LRN. El resultado concreto depende del proceso que se automatice y del volumen de cada negocio; lo estimamos juntos en el diagnóstico, antes de que contrates nada.</p>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICIOS -->
+<section class="services" id="servicios">
+  <div class="container">
+    <div class="section-head wide reveal">
+      <span class="rule" aria-hidden="true"></span>
+      <h2 class="section-title wsplit">Siete servicios. Una sola <em>forma de trabajar.</em></h2>
     </div>
 
     <ul class="services-list">
       <li class="service-item reveal">
         <span class="service-num">01</span>
         <span class="service-title">Atención al cliente y consultas frecuentes</span>
-        <span class="service-desc">Bots que responden con la información de tu negocio, las 24 horas.</span>
+        <span class="service-desc">Agentes que responden con la información de tu negocio, las 24 horas.</span>
       </li>
       <li class="service-item reveal">
         <span class="service-num">02</span>
         <span class="service-title">Calificación y seguimiento de leads</span>
-        <span class="service-desc">Agentes que filtran prospectos y agendan reuniones automáticamente.</span>
+        <span class="service-desc">Filtran prospectos, los puntúan y agendan reuniones automáticamente.</span>
       </li>
       <li class="service-item reveal">
         <span class="service-num">03</span>
@@ -1158,55 +1652,71 @@
       </li>
       <li class="service-item reveal">
         <span class="service-num">04</span>
-        <span class="service-title">Procesamiento de pedidos, facturas y documentos</span>
+        <span class="service-title">Procesamiento de facturas y documentos</span>
         <span class="service-desc">Extracción y carga automática a tus sistemas existentes.</span>
       </li>
       <li class="service-item reveal">
         <span class="service-num">05</span>
-        <span class="service-title">Reportes semanales automáticos</span>
-        <span class="service-desc">Métricas claves en tu WhatsApp todos los lunes.</span>
+        <span class="service-title">Reportes ejecutivos automáticos</span>
+        <span class="service-desc">Las métricas que importan, en tu mail o WhatsApp, sin armarlas a mano.</span>
+      </li>
+      <li class="service-item reveal">
+        <span class="service-num">06</span>
+        <span class="service-title">Diseño y desarrollo de páginas web</span>
+        <span class="service-desc">Sitios a medida, del landing al catálogo online. Listos en días.</span>
+      </li>
+      <li class="service-item reveal">
+        <span class="service-num">07</span>
+        <span class="service-title">CRM a medida</span>
+        <span class="service-desc">Tu sistema de clientes, con acceso privado para tu equipo.</span>
       </li>
     </ul>
   </div>
 </section>
 
 <!-- CÓMO TRABAJAMOS -->
-<section class="process" id="proceso">
+<section class="process on-alt" id="proceso">
   <div class="container">
-    <div class="section-header">
-      <span class="section-label reveal">Cómo trabajamos</span>
+    <div class="section-head wide reveal">
+      <span class="rule" aria-hidden="true"></span>
       <h2 class="section-title wsplit">Tres pasos. Sin <em>complicaciones.</em></h2>
     </div>
 
     <div class="process-grid">
       <div class="process-step reveal">
-        <div class="step-number">i</div>
+        <div class="step-number" aria-hidden="true">i</div>
         <h3 class="step-title">Diagnóstico</h3>
-        <p class="step-text">Mapeamos los procesos repetitivos de tu equipo y detectamos las oportunidades de mayor impacto. Sin compromiso.</p>
+        <p class="step-text">Veinte minutos para mapear los procesos repetitivos de tu equipo y detectar dónde el impacto es mayor. Sin costo y sin compromiso.</p>
       </div>
       <div class="process-step reveal">
-        <div class="step-number">ii</div>
+        <div class="step-number" aria-hidden="true">ii</div>
         <h3 class="step-title">Implementación</h3>
-        <p class="step-text">Construimos los agentes de IA, los integramos a tus herramientas actuales y los dejamos andando. En dos a tres semanas.</p>
+        <p class="step-text">Diseñamos el sistema, lo construimos, lo integramos a tus herramientas actuales y lo dejamos andando. Con entregas parciales para que veas el avance.</p>
       </div>
       <div class="process-step reveal">
-        <div class="step-number">iii</div>
+        <div class="step-number" aria-hidden="true">iii</div>
         <h3 class="step-title">Operación continua</h3>
-        <p class="step-text">Monitoreamos, ajustamos y mejoramos. Vos ves los resultados; nosotros nos ocupamos del resto.</p>
+        <p class="step-text">Monitoreamos, corregimos y mejoramos mes a mes. Vos ves los resultados; nosotros nos ocupamos de que sigan funcionando.</p>
       </div>
+    </div>
+
+    <div class="process-note reveal">
+      <p class="fineprint">Los pasos <strong>i</strong> y <strong>ii</strong> valen para todo lo que hacemos. El paso <strong>iii</strong> es el circuito de las automatizaciones, que operamos mes a mes: las páginas web y el CRM a medida se entregan como producto terminado.</p>
     </div>
   </div>
 </section>
 
-<!-- PÁGINAS WEB (nuevo servicio) -->
+<!-- PÁGINAS WEB -->
 <section class="webs" id="webs">
   <div class="container">
     <div class="webs-grid">
       <div class="webs-copy">
-        <span class="section-label reveal">Nuevo servicio</span>
-        <h2 class="section-title wsplit">También diseñamos <em>páginas web.</em></h2>
+        <div class="reveal">
+          <span class="rule" aria-hidden="true"></span>
+          <h2 class="section-title wsplit">También diseñamos <em>páginas web.</em></h2>
+        </div>
         <p class="webs-text reveal">La misma obsesión que ponemos en tus procesos, aplicada a la cara visible de tu negocio. Páginas rápidas, claras y hechas a medida — como esta que estás viendo.</p>
-        <ul class="webs-points reveal">
+        <ul class="points reveal">
           <li>Diseño a medida, sin plantillas genéricas</li>
           <li>Lista en días, no en meses</li>
           <li>Pensada para el celular y para Google</li>
@@ -1221,23 +1731,107 @@
 
       <div class="web-mock reveal" aria-hidden="true">
         <div class="mock-float">
-        <div class="mock-frame">
+          <div class="mock-frame">
+            <div class="mock-bar">
+              <span class="mock-dots"><i></i><i></i><i></i></span>
+              <span class="mock-url">tu-negocio.com.ar</span>
+            </div>
+            <div class="mock-body">
+              <span class="mock-eyebrow">Tu negocio</span>
+              <span class="mock-title">Abierto las <em>24 horas</em>.</span>
+              <span class="mock-line"></span>
+              <span class="mock-line mock-line-short"></span>
+              <span class="mock-cta">
+                <span class="mock-btn-solid"></span>
+                <span class="mock-btn-ghost"></span>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CRM A MEDIDA -->
+<section class="crm on-alt" id="crm">
+  <div class="container">
+    <div class="section-head wide reveal">
+      <span class="section-label">Nuevo servicio</span>
+      <h2 class="section-title wsplit">Y ahora, tu <em>CRM a medida.</em></h2>
+      <p class="crm-intro">El sistema de clientes de tu negocio, construido para tu forma de vender: los contactos, las oportunidades abiertas y el estado de cada una, en un tablero que tu equipo abre desde cualquier navegador.</p>
+    </div>
+
+    <div class="crm-grid">
+      <div class="crm-board-wrap reveal">
+        <div class="crm-board" aria-hidden="true">
           <div class="mock-bar">
             <span class="mock-dots"><i></i><i></i><i></i></span>
-            <span class="mock-url">tu-negocio.com.ar</span>
+            <span class="mock-url">crm.tu-negocio.com.ar</span>
           </div>
-          <div class="mock-body">
-            <span class="mock-eyebrow">Tu negocio</span>
-            <span class="mock-title">Abierto las <em>24 horas</em>.</span>
-            <span class="mock-line"></span>
-            <span class="mock-line mock-line-short"></span>
-            <span class="mock-cta">
-              <span class="mock-btn-solid"></span>
-              <span class="mock-btn-ghost"></span>
-            </span>
+          <div class="crm-body">
+            <div class="crm-head">
+              <span class="crm-h-title">Oportunidades</span>
+              <span class="crm-h-meta">Equipo · 3 usuarios</span>
+            </div>
+            <div class="crm-feed">
+              <span class="crm-chip"><i class="crm-live"></i>Entrada automática · WhatsApp</span>
+              <span class="crm-rail"><span class="crm-dot" id="crmDot"></span></span>
+            </div>
+            <div class="crm-cols">
+              <span>Contacto</span>
+              <span class="crm-c-origin">Origen</span>
+              <span>Estado</span>
+            </div>
+            <div class="crm-viewport">
+              <ul class="crm-rows" id="crmRows">
+                <li class="crm-row">
+                  <span class="crm-name">Marina Sosa</span>
+                  <span class="crm-origin crm-c-origin">WhatsApp</span>
+                  <span class="crm-state s-nuevo">Nuevo</span>
+                </li>
+                <li class="crm-row">
+                  <span class="crm-name">Estudio Paulsen</span>
+                  <span class="crm-origin crm-c-origin">Formulario web</span>
+                  <span class="crm-state s-curso">Contactado</span>
+                </li>
+                <li class="crm-row">
+                  <span class="crm-name">Cristian Vega</span>
+                  <span class="crm-origin crm-c-origin">Instagram</span>
+                  <span class="crm-state s-curso">Propuesta</span>
+                </li>
+                <li class="crm-row">
+                  <span class="crm-name">Consorcio Belgrano 1180</span>
+                  <span class="crm-origin crm-c-origin">WhatsApp</span>
+                  <span class="crm-state s-ganado">Ganado</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="crm-foot">
+            <span>Acceso privado por usuario</span>
+            <span>Pago único</span>
           </div>
         </div>
+      </div>
+
+      <div class="crm-copy">
+        <div class="crm-once reveal">
+          <h3>Se paga <em>una sola vez.</em></h3>
+          <p>Sin abono mensual de software. Se entrega terminado y el sistema queda tuyo.</p>
         </div>
+        <ul class="points reveal">
+          <li>Acceso privado por usuario y contraseña, para cada persona del equipo</li>
+          <li>Si ya tenés automatizaciones de LRN, los prospectos entran solos y en tiempo real</li>
+          <li>Estados de seguimiento configurables, con tus colores y tu logo</li>
+          <li>Entrega en días, no en meses</li>
+        </ul>
+        <a href="https://wa.me/5491130936305?text=Hola%2C%20quiero%20saber%20m%C3%A1s%20sobre%20el%20CRM%20a%20medida" class="link-arrow reveal" target="_blank" rel="noopener">
+          Quiero ver el CRM
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5"/>
+          </svg>
+        </a>
       </div>
     </div>
   </div>
@@ -1247,9 +1841,9 @@
 <section class="target">
   <div class="container">
     <div class="target-content">
-      <span class="section-label reveal">Para quién</span>
+      <div class="reveal"><span class="rule" aria-hidden="true"></span></div>
       <h2 class="wsplit">Diseñado para <em>PYMES</em> de Argentina.</h2>
-      <p class="reveal">Negocios que ya están cansados de perder tiempo en tareas repetitivas y quieren operar con la eficiencia de una compañía grande, sin sumar estructura.</p>
+      <p class="reveal">Negocios, consorcios y profesionales que ya están cansados de perder tiempo en tareas repetitivas y quieren operar con la eficiencia de una compañía grande, sin sumar estructura.</p>
     </div>
   </div>
 </section>
@@ -1257,85 +1851,99 @@
 <!-- CTA -->
 <section class="cta" id="contacto">
   <span class="cta-watermark" aria-hidden="true">LRN</span>
+  <span class="cta-rings" aria-hidden="true">
+    <span class="cta-ring"></span>
+    <span class="cta-ring"></span>
+    <span class="cta-ring"></span>
+  </span>
   <div class="container cta-content">
     <h2 class="wsplit">Empecemos por un <em>diagnóstico.</em></h2>
-    <p class="reveal">Una conversación de 20 minutos para detectar dónde la automatización tiene sentido en tu operación. Sin venta, sin compromiso.</p>
+    <p class="reveal">Veinte minutos para ver dónde la automatización tiene sentido en tu operación — y dónde no. Sin costo, sin venta y sin compromiso.</p>
     <div class="cta-buttons reveal">
       <a href="https://wa.me/5491130936305?text=Hola%2C%20quiero%20agendar%20un%20diagn%C3%B3stico%20con%20LRN" class="btn btn-light" target="_blank" rel="noopener">
-        Agendar por WhatsApp
+        Escribir por WhatsApp
         <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
           <path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5"/>
         </svg>
       </a>
-      <a href="mailto:tommy2.laurna@gmail.com?subject=Consulta%20LRN" class="btn btn-outline-light">
-        Escribir por mail
-      </a>
+      <a href="mailto:tommy2.laurna@gmail.com?subject=Consulta%20LRN" class="btn btn-outline-light">Prefiero mail</a>
     </div>
   </div>
 </section>
+
+</main>
 
 <!-- FOOTER -->
 <footer>
   <div class="container">
     <div class="footer-grid">
       <div class="footer-col">
-        <h4>Contacto</h4>
+        <h2>Contacto</h2>
         <a href="https://wa.me/5491130936305" target="_blank" rel="noopener">WhatsApp · 11 3093-6305</a>
         <a href="mailto:tommy2.laurna@gmail.com">tommy2.laurna@gmail.com</a>
       </div>
       <div class="footer-col">
-        <h4>Servicios</h4>
-        <p>Atención al cliente</p>
-        <p>Calificación de leads</p>
-        <p>Cobranzas automatizadas</p>
-        <p>Procesamiento de documentos</p>
-        <p>Reportes ejecutivos</p>
-        <p>Diseño de páginas web</p>
+        <h2>Servicios</h2>
+        <ul>
+          <li>Atención al cliente</li>
+          <li>Calificación de leads</li>
+          <li>Cobranzas automatizadas</li>
+          <li>Procesamiento de documentos</li>
+          <li>Reportes ejecutivos</li>
+          <li>Diseño de páginas web</li>
+          <li>CRM a medida</li>
+        </ul>
       </div>
       <div class="footer-col">
-        <h4>Cobertura</h4>
+        <h2>Cobertura</h2>
         <p>Argentina · Trabajo remoto</p>
-        <p>PYMES · Comercios · Profesionales</p>
+        <p>PYMES · Consorcios · Comercios · Profesionales</p>
       </div>
     </div>
     <div class="footer-bottom">
       <span class="footer-logo">LRN</span>
-      <span>© 2026 LRN — Automatización de procesos con inteligencia artificial.</span>
+      <span>© 2026 LRN — Automatización de procesos con IA, páginas web y CRM a medida.</span>
     </div>
   </div>
 </footer>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  "name": "LRN",
+  "description": "Agencia argentina de automatización de procesos con inteligencia artificial, diseño de páginas web y desarrollo de CRM a medida para PYMES, consorcios y profesionales.",
+  "url": "https://lrn.com.ar/",
+  "email": "tommy2.laurna@gmail.com",
+  "telephone": "+541130936305",
+  "inLanguage": "es-AR",
+  "address": { "@type": "PostalAddress", "addressCountry": "AR" },
+  "areaServed": { "@type": "Country", "name": "Argentina" },
+  "hasOfferCatalog": {
+    "@type": "OfferCatalog",
+    "name": "Servicios de LRN",
+    "itemListElement": [
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Atención al cliente automatizada", "description": "Agente conversacional sobre WhatsApp, sitio web o mensajería, con la base de conocimiento del negocio y escalamiento a un humano." } },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Calificación y seguimiento de leads", "description": "Califica prospectos con una conversación estructurada, los puntúa y agenda reuniones en el calendario comercial." } },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Gestión automatizada de cobranzas", "description": "Detección de facturas vencidas, recordatorios escalonados por WhatsApp y mail, y reportes de morosidad." } },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Procesamiento de documentos", "description": "Lectura de facturas y comprobantes, extracción de datos y carga a los sistemas del cliente." } },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Reportes ejecutivos automáticos", "description": "Conexión a las fuentes de datos del cliente y generación periódica de reportes con métricas clave." } },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Diseño y desarrollo de páginas web", "description": "Sitios a medida, desde una landing hasta un catálogo online, con hosting y dominio conectado." } },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "CRM a medida", "description": "Sistema de gestión de clientes con acceso privado por usuario, tablero de oportunidades y estados configurables. Se entrega como producto, con pago único y sin abono mensual de software." } }
+    ]
+  }
+}
+</script>
 
 <script>
 (function () {
   var doc = document.documentElement;
   var reduce = window.matchMedia ? matchMedia('(prefers-reduced-motion: reduce)') : { matches: false };
+  var EASE = 'cubic-bezier(0.22, 1, 0.36, 1)';
 
-  /* ---------- Switch de tema ---------- */
-  var toggle = document.getElementById('themeToggle');
-  var metaTheme = document.getElementById('metaTheme');
-  var themingTimer = null;
-
-  function syncTheme() {
-    var dark = doc.getAttribute('data-theme') === 'dark';
-    toggle.setAttribute('aria-checked', String(dark));
-    metaTheme.setAttribute('content', dark ? '#161311' : '#F5F1EA');
-  }
-
-  toggle.addEventListener('click', function () {
-    var next = doc.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-    if (!reduce.matches) {
-      doc.classList.add('theming');
-      clearTimeout(themingTimer);
-      themingTimer = setTimeout(function () { doc.classList.remove('theming'); }, 500);
-    }
-    doc.setAttribute('data-theme', next);
-    try { localStorage.setItem('lrn-theme', next); } catch (e) {}
-    syncTheme();
-  });
-
-  syncTheme();
-
-  /* ---------- Titulares palabra por palabra ---------- */
+  /* ---------- Titulares palabra por palabra ----------
+     Va primero y con failsafe: si algo falla más abajo, los titulares
+     ya quedaron visibles. Nunca puede quedar texto invisible. */
   function splitWords(el) {
     var wi = 0;
     function walk(node) {
@@ -1363,12 +1971,45 @@
     walk(el);
   }
 
-  if (!reduce.matches) {
-    document.querySelectorAll('.wsplit').forEach(function (el) {
-      splitWords(el);
-      el.classList.add('split-ready');
-    });
+  var splits = document.querySelectorAll('.wsplit');
+
+  function unlockSplits() {
+    Array.prototype.forEach.call(splits, function (el) { el.classList.add('split-ready'); });
   }
+
+  try {
+    if (!reduce.matches) {
+      Array.prototype.forEach.call(splits, function (el) { splitWords(el); });
+    }
+  } catch (e) { /* si el split falla, el texto queda entero */ }
+  unlockSplits();
+  /* Red de seguridad por si algo interrumpe el script más abajo */
+  setTimeout(unlockSplits, 800);
+
+  /* ---------- Switch de tema ---------- */
+  var toggle = document.getElementById('themeToggle');
+  var metaTheme = document.getElementById('metaTheme');
+  var themingTimer = null;
+
+  function syncTheme() {
+    var dark = doc.getAttribute('data-theme') === 'dark';
+    toggle.setAttribute('aria-checked', String(dark));
+    metaTheme.setAttribute('content', dark ? '#161311' : '#F5F1EA');
+  }
+
+  toggle.addEventListener('click', function () {
+    var next = doc.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    if (!reduce.matches) {
+      doc.classList.add('theming');
+      clearTimeout(themingTimer);
+      themingTimer = setTimeout(function () { doc.classList.remove('theming'); }, 500);
+    }
+    doc.setAttribute('data-theme', next);
+    try { localStorage.setItem('lrn-theme', next); } catch (e) {}
+    syncTheme();
+  });
+
+  syncTheme();
 
   /* ---------- Ticker: clona los grupos para el loop infinito ---------- */
   var track = document.getElementById('tickerTrack');
@@ -1379,12 +2020,13 @@
     }
   }
 
-  /* ---------- El tag del nav alterna entre los dos servicios ---------- */
+  /* ---------- El tag del nav rota entre las tres líneas ---------- */
   var cycleEl = document.getElementById('navTagCycle');
   if (cycleEl && !reduce.matches) {
-    var labels = ['Automatización con IA', 'Diseño de páginas web'];
+    var labels = ['Automatización con IA', 'Diseño de páginas web', 'CRM a medida'];
     var ci = 0;
     setInterval(function () {
+      if (document.hidden) return;
       cycleEl.classList.add('out');
       setTimeout(function () {
         ci = (ci + 1) % labels.length;
@@ -1396,7 +2038,9 @@
 
   /* ---------- Reveal on scroll ---------- */
   var revealEls = document.querySelectorAll('.reveal, .wsplit');
-  if ('IntersectionObserver' in window && !reduce.matches) {
+  var hasIO = 'IntersectionObserver' in window;
+
+  if (hasIO && !reduce.matches) {
     var io = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {
         if (entry.isIntersecting) {
@@ -1405,38 +2049,194 @@
         }
       });
     }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
-    revealEls.forEach(function (el) { io.observe(el); });
+    Array.prototype.forEach.call(revealEls, function (el) { io.observe(el); });
   } else {
-    revealEls.forEach(function (el) { el.classList.add('in-view'); });
+    Array.prototype.forEach.call(revealEls, function (el) { el.classList.add('in-view'); });
   }
 
-  /* ---------- Nav: sombra sutil al scrollear + parallax de la marca de agua ---------- */
+  /* ---------- Conteo de las métricas ----------
+     Los números reales ya están en el HTML: si el JS no corre, se leen igual.
+     Arranca desde la misma cantidad de dígitos para no mover el layout. */
+  function countTo(el, target, duration) {
+    var digits = String(target).length;
+    var from = digits > 1 ? Math.pow(10, digits - 1) : 0;
+    var start = null;
+    function step(ts) {
+      if (start === null) start = ts;
+      var p = Math.min(1, (ts - start) / duration);
+      var eased = 1 - Math.pow(1 - p, 4);
+      el.textContent = String(Math.round(from + (target - from) * eased));
+      if (p < 1) requestAnimationFrame(step);
+      else el.textContent = String(target);
+    }
+    requestAnimationFrame(step);
+  }
+
+  var counters = document.querySelectorAll('[data-count]');
+  if (counters.length && hasIO && !reduce.matches) {
+    var cio = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        var el = entry.target;
+        cio.unobserve(el);
+        var target = parseInt(el.textContent, 10);
+        if (isNaN(target)) return;
+        countTo(el, target, 1100);
+      });
+    }, { threshold: 1 });
+    Array.prototype.forEach.call(counters, function (el) { cio.observe(el); });
+  }
+
+  /* ---------- CRM: el lead que entra solo ----------
+     Comunica el producto: con automatización contratada, el prospecto
+     aparece en el tablero sin que nadie lo cargue. Solo transform + opacity,
+     y en pausa cuando la sección no está a la vista o la pestaña está oculta. */
+  var rowsEl = document.getElementById('crmRows');
+  var dotEl = document.getElementById('crmDot');
+  var board = document.querySelector('.crm-board');
+  var MAX_ROWS = 5;
+  var POOL = [
+    ['Delia Ferrari', 'WhatsApp', 'nuevo', 'Nuevo'],
+    ['Grupo Ranelli', 'Formulario web', 'curso', 'Contactado'],
+    ['Nadia Quiroga', 'Instagram', 'nuevo', 'Nuevo'],
+    ['Ferretería Aldao', 'WhatsApp', 'curso', 'Propuesta'],
+    ['Consorcio Rivadavia 3400', 'WhatsApp', 'nuevo', 'Nuevo'],
+    ['Lucas Bermúdez', 'Formulario web', 'curso', 'Contactado'],
+    ['Distribuidora Ceballos', 'WhatsApp', 'ganado', 'Ganado'],
+    ['Sofía Iriarte', 'Instagram', 'nuevo', 'Nuevo']
+  ];
+  var poolIdx = 0;
+  var crmTimer = null;
+  var crmPending = null;
+  var crmOnScreen = false;
+
+  function buildRow(data) {
+    var li = document.createElement('li');
+    li.className = 'crm-row is-new';
+
+    var name = document.createElement('span');
+    name.className = 'crm-name';
+    name.textContent = data[0];
+
+    var origin = document.createElement('span');
+    origin.className = 'crm-origin crm-c-origin';
+    origin.textContent = data[1];
+
+    var state = document.createElement('span');
+    state.className = 'crm-state s-' + data[2];
+    state.textContent = data[3];
+
+    li.appendChild(name);
+    li.appendChild(origin);
+    li.appendChild(state);
+    return li;
+  }
+
+  function dropDot() {
+    if (!dotEl || !dotEl.parentNode) return;
+    var rail = dotEl.parentNode;
+    dotEl.style.setProperty('--dd', Math.max(0, rail.offsetHeight - 7) + 'px');
+    dotEl.classList.remove('go');
+    void dotEl.offsetWidth;
+    dotEl.classList.add('go');
+  }
+
+  function pushLead() {
+    crmPending = null;
+    /* Si el tablero se fue de pantalla mientras el punto caía, no insertamos nada */
+    if (!rowsEl || !crmOnScreen || document.hidden) return;
+    var li = buildRow(POOL[poolIdx % POOL.length]);
+    poolIdx++;
+    rowsEl.insertBefore(li, rowsEl.firstChild);
+
+    var rh = li.offsetHeight;
+    rowsEl.style.transition = 'none';
+    rowsEl.style.transform = 'translate3d(0,' + (-rh) + 'px,0)';
+    void rowsEl.offsetHeight;
+    rowsEl.style.transition = 'transform 0.7s ' + EASE;
+    rowsEl.style.transform = 'translate3d(0,0,0)';
+
+    while (rowsEl.children.length > MAX_ROWS) {
+      rowsEl.removeChild(rowsEl.lastElementChild);
+    }
+  }
+
+  function crmTick() {
+    dropDot();
+    clearTimeout(crmPending);
+    crmPending = setTimeout(pushLead, 560);
+  }
+
+  function startCrm() {
+    if (crmTimer || reduce.matches) return;
+    crmTimer = setInterval(function () {
+      if (document.hidden || !crmOnScreen) return;
+      crmTick();
+    }, 4600);
+  }
+
+  function stopCrm() {
+    clearInterval(crmTimer);
+    clearTimeout(crmPending);
+    crmTimer = null;
+    crmPending = null;
+  }
+
+  if (board && rowsEl && hasIO && !reduce.matches) {
+    var bio = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        crmOnScreen = entry.isIntersecting;
+        if (crmOnScreen) startCrm(); else stopCrm();
+      });
+    }, { threshold: 0.35 });
+    bio.observe(board);
+
+    document.addEventListener('visibilitychange', function () {
+      if (document.hidden) stopCrm();
+      else if (crmOnScreen) startCrm();
+    });
+  }
+
+  /* ---------- Scroll: sombra del nav, progreso y parallax de la marca de agua ---------- */
   var nav = document.getElementById('nav');
+  var progress = document.getElementById('navProgress');
   var watermark = document.querySelector('.cta-watermark');
   var ctaBand = document.getElementById('contacto');
   var ticking = false;
 
   function onFrame() {
     ticking = false;
-    nav.classList.toggle('scrolled', window.scrollY > 4);
-    if (watermark && !reduce.matches) {
+    var y = window.scrollY || window.pageYOffset || 0;
+
+    nav.classList.toggle('scrolled', y > 4);
+
+    if (progress) {
+      var max = doc.scrollHeight - window.innerHeight;
+      var p = max > 0 ? Math.min(1, Math.max(0, y / max)) : 0;
+      progress.style.transform = 'scaleX(' + p.toFixed(4) + ')';
+    }
+
+    if (watermark && ctaBand && !reduce.matches) {
       var r = ctaBand.getBoundingClientRect();
       if (r.bottom > 0 && r.top < window.innerHeight) {
-        var p = (r.top + r.height / 2 - window.innerHeight / 2) / window.innerHeight;
-        watermark.style.transform = 'translate3d(0,' + (p * 70).toFixed(1) + 'px,0)';
+        var q = (r.top + r.height / 2 - window.innerHeight / 2) / window.innerHeight;
+        watermark.style.transform = 'translate3d(0,' + (q * 70).toFixed(1) + 'px,0)';
       }
     }
   }
 
-  window.addEventListener('scroll', function () {
+  function requestFrame() {
     if (!ticking) { requestAnimationFrame(onFrame); ticking = true; }
-  }, { passive: true });
+  }
+
+  window.addEventListener('scroll', requestFrame, { passive: true });
+  window.addEventListener('resize', requestFrame, { passive: true });
   onFrame();
 
   /* ---------- Botones magnéticos (solo mouse, sin reduced-motion) ---------- */
   var finePointer = window.matchMedia && matchMedia('(hover: hover) and (pointer: fine)').matches;
   if (finePointer && !reduce.matches) {
-    document.querySelectorAll('.btn').forEach(function (btn) {
+    Array.prototype.forEach.call(document.querySelectorAll('.btn'), function (btn) {
       btn.addEventListener('mousemove', function (e) {
         var r = btn.getBoundingClientRect();
         var dx = (e.clientX - r.left - r.width / 2) / r.width;
