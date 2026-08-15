@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>LRN — Automatización con IA, páginas web y CRM a medida para PYMES</title>
-<meta name="description" content="Agentes de IA que absorben las tareas repetitivas de tu equipo, páginas web a medida y tu propio CRM de pago único. Para PYMES de Argentina." />
+<meta name="description" content="Tomamos pocos proyectos por mes y no todos califican. Hacé la evaluación de 2 minutos y enterate qué automatización tiene sentido en tu negocio. PYMES de Argentina." />
 <meta name="theme-color" content="#F5F1EA" id="metaTheme" />
 <link rel="canonical" href="https://lrn.com.ar/" />
 
@@ -14,12 +14,12 @@
 <meta property="og:locale" content="es_AR" />
 <meta property="og:url" content="https://lrn.com.ar/" />
 <meta property="og:title" content="LRN — Automatización con IA, páginas web y CRM a medida" />
-<meta property="og:description" content="Agentes de IA que absorben las tareas repetitivas de tu equipo, páginas web a medida y tu propio CRM de pago único. Para PYMES de Argentina." />
+<meta property="og:description" content="Tomamos pocos proyectos por mes y no todos califican. Hacé la evaluación de 2 minutos y enterate qué automatización tiene sentido en tu negocio." />
 <!-- TODO: subir og.png (1200x630) al hosting y descomentar:
 <meta property="og:image" content="https://lrn.com.ar/og.png" /> -->
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="LRN — Automatización con IA, páginas web y CRM a medida" />
-<meta name="twitter:description" content="Agentes de IA que absorben las tareas repetitivas de tu equipo, páginas web a medida y tu propio CRM de pago único." />
+<meta name="twitter:description" content="Tomamos pocos proyectos por mes y no todos califican. Hacé la evaluación de 2 minutos y enterate qué automatización tiene sentido en tu negocio." />
 
 <!-- Favicon: monograma inline, sin archivo externo -->
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='10' fill='%231A1815'/%3E%3Ctext x='32' y='45' font-family='Georgia,serif' font-size='34' fill='%23B8462C' text-anchor='middle'%3EL%3C/text%3E%3C/svg%3E" />
@@ -406,6 +406,16 @@
     animation: fadeUp 0.9s var(--ease) 0.6s forwards;
   }
 
+  /* Condiciones de la evaluación, justo debajo de los botones */
+  .hero-fine {
+    margin-top: 22px;
+    font-size: 12.5px;
+    line-height: 1.6;
+    color: var(--muted);
+    opacity: 0;
+    animation: fadeUp 0.9s var(--ease) 0.75s forwards;
+  }
+
   .btn {
     display: inline-flex;
     align-items: center;
@@ -589,6 +599,19 @@
 
   /* ============ SERVICIOS ============ */
   .services { padding: 116px 0; }
+
+  .services .section-head { max-width: none; }
+  .services .section-title { max-width: 22ch; }
+
+  .services-intro {
+    font-size: 17px;
+    line-height: 1.65;
+    color: var(--ink-soft);
+    max-width: 62ch;
+    margin-top: 24px;
+  }
+
+  .services-cta { margin-top: 8px; }
 
   .services-list { list-style: none; }
 
@@ -1089,39 +1112,393 @@
     color: var(--muted-alt);
   }
 
-  /* ============ PARA QUIÉN ============ */
-  .target {
+  /* ============ CRITERIOS ============ */
+  .gate {
     padding: 116px 0;
-    text-align: center;
     border-top: 1px solid var(--line);
   }
 
-  .target-content {
-    max-width: 760px;
-    margin: 0 auto;
+  /* Igual que en el CRM: el título respira angosto, la intro corre ancha */
+  .gate .section-head { max-width: none; margin-bottom: 72px; }
+  .gate .section-title { max-width: 18ch; }
+
+  .gate-intro {
+    font-size: 17px;
+    line-height: 1.65;
+    color: var(--ink-soft);
+    max-width: 62ch;
+    margin-top: 24px;
   }
 
-  .target .rule { margin: 0 auto 26px; max-width: 120px; transform-origin: center; }
+  /* Los tres requisitos, como columnas con regla en acento */
+  .gate-reqs {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: clamp(32px, 4vw, 64px);
+    margin-bottom: 88px;
+  }
 
-  .target h2 {
+  .gate-req {
+    border-top: 2px solid var(--accent);
+    padding-top: 22px;
+  }
+
+  .gate-num {
+    display: block;
+    font-family: var(--serif);
+    font-size: 20px;
+    color: var(--accent);
+    font-variant-numeric: tabular-nums;
+    margin-bottom: 10px;
+  }
+
+  .gate-req-title {
     font-family: var(--serif);
     font-weight: 400;
-    font-size: clamp(28px, 3.5vw, 44px);
-    line-height: 1.18;
-    letter-spacing: -0.02em;
-    margin-bottom: 28px;
+    font-size: 26px;
+    letter-spacing: -0.015em;
+    line-height: 1.2;
+    color: var(--ink);
+    margin-bottom: 12px;
   }
 
-  .target h2 em {
+  .gate-req-text {
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--ink-soft);
+  }
+
+  /* Dos columnas: con quién sí, con quién no */
+  .gate-cols {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(32px, 5vw, 80px);
+  }
+
+  .gate-col-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+  }
+
+  .gate-col-label::before {
+    content: '';
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .gate-yes { color: var(--accent); }
+  .gate-yes::before { background: var(--accent); }
+
+  .gate-no { color: var(--muted); }
+  .gate-no::before { background: var(--muted); opacity: 0.5; }
+
+  /* La columna del "no" baja de intensidad: se lee, pero no compite */
+  .points-no li { color: var(--ink-soft); }
+  .points-no li::before { color: var(--muted); opacity: 0.6; }
+
+  .gate-note {
+    margin-top: 56px;
+    padding-top: 20px;
+    border-top: 1px solid var(--line);
+    max-width: 76ch;
+  }
+
+  /* ============ EVALUACIÓN ============ */
+  .quiz {
+    padding: 116px 0;
+    background: var(--bg-alt);
+    border-top: 1px solid var(--line);
+  }
+
+  .quiz .section-head { max-width: none; margin-bottom: 64px; }
+  .quiz .section-title { max-width: 18ch; }
+
+  .quiz-intro {
+    font-size: 17px;
+    line-height: 1.65;
+    color: var(--ink-soft);
+    max-width: 62ch;
+    margin-top: 24px;
+  }
+
+  .quiz-card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    box-shadow: var(--board-shadow);
+    padding: clamp(24px, 3.4vw, 46px);
+    max-width: 900px;
+  }
+
+  .quiz-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 14px;
+  }
+
+  .quiz-step {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--muted);
+  }
+
+  .quiz-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: none;
+    border: none;
+    padding: 4px 2px;
+    font-family: var(--sans);
+    font-size: 13px;
+    color: var(--muted);
+    cursor: pointer;
+    transition: color 0.25s ease;
+  }
+
+  .quiz-back:hover { color: var(--accent); }
+  .quiz-back svg { transition: transform 0.25s ease; }
+  .quiz-back:hover svg { transform: translateX(-3px); }
+
+  .quiz-bar {
+    height: 2px;
+    background: var(--line);
+    overflow: hidden;
+    margin-bottom: 36px;
+  }
+
+  .quiz-bar-fill {
+    display: block;
+    height: 100%;
+    width: 100%;
+    background: var(--accent);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.6s var(--ease);
+  }
+
+  /* Alto mínimo: evita que la tarjeta salte al cambiar de pregunta */
+  .quiz-body { min-height: 400px; }
+
+  .quiz-q {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(24px, 2.8vw, 34px);
+    line-height: 1.18;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    margin-bottom: 10px;
+    max-width: 26ch;
+  }
+
+  .quiz-hint {
+    font-size: 13.5px;
+    line-height: 1.55;
+    color: var(--muted);
+    margin-bottom: 28px;
+    max-width: 52ch;
+  }
+
+  .quiz-opts {
+    list-style: none;
+    display: grid;
+    gap: 10px;
+  }
+
+  .quiz-opt {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    width: 100%;
+    text-align: left;
+    padding: 17px 20px;
+    background: var(--bg);
+    border: 1px solid var(--line);
+    border-radius: 3px;
+    font-family: var(--sans);
+    font-size: 15px;
+    line-height: 1.45;
+    color: var(--ink);
+    cursor: pointer;
+    transition: border-color 0.25s ease, background-color 0.25s ease, transform 0.35s var(--ease);
+  }
+
+  .quiz-opt:hover {
+    border-color: var(--accent);
+    transform: translateX(4px);
+  }
+
+  .quiz-opt[aria-pressed="true"] {
+    border-color: var(--accent);
+    background: var(--chip-bg);
+  }
+
+  .quiz-key {
+    flex-shrink: 0;
+    width: 22px;
+    height: 22px;
+    border: 1px solid var(--line);
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    font-size: 10.5px;
+    letter-spacing: 0;
+    color: var(--muted);
+    transition: background-color 0.25s ease, border-color 0.25s ease, color 0.25s ease;
+  }
+
+  .quiz-opt[aria-pressed="true"] .quiz-key {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--bg);
+  }
+
+  .quiz-actions {
+    margin-top: 28px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+
+  .quiz-actions .fineprint { max-width: 30ch; }
+
+  .quiz-opt:disabled,
+  .btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  /* --- Resultado --- */
+  .quiz-verdict {
+    border-top: 2px solid var(--accent);
+    padding-top: 24px;
+    margin-bottom: 40px;
+  }
+
+  .quiz-verdict-label {
+    display: inline-block;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--accent);
+    margin-bottom: 14px;
+  }
+
+  .quiz-verdict h3 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(26px, 3.2vw, 40px);
+    line-height: 1.14;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    margin-bottom: 14px;
+    max-width: 20ch;
+  }
+
+  .quiz-verdict h3 em {
     font-style: italic;
     color: var(--accent);
     padding-bottom: 0.06em;
   }
 
-  .target p {
-    font-size: 17px;
-    color: var(--ink-soft);
+  .quiz-verdict p {
+    font-size: 15.5px;
     line-height: 1.65;
+    color: var(--ink-soft);
+    max-width: 62ch;
+  }
+
+  /* Veredicto "todavía no": mismo formato, sin el acento que celebra */
+  .quiz-verdict.is-soft { border-top-color: var(--line); }
+  .quiz-verdict.is-soft .quiz-verdict-label { color: var(--muted); }
+  .quiz-verdict.is-soft h3 em { color: var(--ink-soft); }
+
+  .quiz-recs-head {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--muted);
+    margin-bottom: 18px;
+  }
+
+  .quiz-recs { list-style: none; margin-bottom: 36px; }
+
+  .quiz-rec {
+    display: grid;
+    grid-template-columns: 46px 1fr;
+    gap: 18px;
+    align-items: baseline;
+    padding: 22px 0;
+    border-top: 1px solid var(--line);
+  }
+
+  .quiz-rec:last-child { border-bottom: 1px solid var(--line); }
+
+  .quiz-rec-num {
+    font-family: var(--serif);
+    font-size: 22px;
+    color: var(--accent);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .quiz-rec-title {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(19px, 2vw, 25px);
+    letter-spacing: -0.015em;
+    line-height: 1.25;
+    color: var(--ink);
+    margin-bottom: 7px;
+  }
+
+  .quiz-rec-why {
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--ink-soft);
+    max-width: 58ch;
+  }
+
+  .quiz-result-actions {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-bottom: 24px;
+  }
+
+  .quiz-restart {
+    background: none;
+    border: none;
+    font-family: var(--sans);
+    font-size: 14px;
+    color: var(--muted);
+    cursor: pointer;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    padding: 6px 2px;
+    transition: color 0.25s ease;
+  }
+
+  .quiz-restart:hover { color: var(--accent); }
+
+  .quiz-noscript { display: grid; gap: 22px; justify-items: start; }
+
+  .quiz-noscript p {
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--ink-soft);
   }
 
   /* ============ CTA ============ */
@@ -1212,6 +1589,16 @@
   .btn-light:hover {
     background: var(--accent);
     color: var(--bg);
+  }
+
+  /* Recordatorio del cupo, en voz baja bajo los botones del cierre */
+  .cta .cta-fine {
+    margin: 34px auto 0;
+    max-width: 54ch;
+    font-size: 12.5px;
+    line-height: 1.6;
+    color: var(--cta-soft);
+    opacity: 0.8;
   }
 
   .btn-outline-light {
@@ -1365,7 +1752,17 @@
     /* Escalonado interno de las secciones */
     .cta p.reveal { --d: 0.15s; }
     .cta .cta-buttons.reveal { --d: 0.28s; }
-    .target p.reveal { --d: 0.12s; }
+    .cta .cta-fine.reveal { --d: 0.4s; }
+
+    .gate-reqs .gate-req:nth-child(2) { --d: 0.1s; }
+    .gate-reqs .gate-req:nth-child(3) { --d: 0.2s; }
+    .gate-cols .gate-col:nth-child(2) { --d: 0.12s; }
+    .gate-note.reveal { --d: 0.1s; }
+    .services-cta.reveal { --d: 0.1s; }
+    .quiz-card.reveal { --d: 0.1s; }
+
+    /* Cada paso de la evaluación entra solo, sin tocar el alto de la tarjeta */
+    html.js .quiz-fade { animation: fadeUp 0.45s var(--ease) both; }
     .webs-text.reveal { --d: 0.1s; }
     .webs .points.reveal { --d: 0.18s; }
     .webs .link-arrow.reveal { --d: 0.26s; }
@@ -1447,7 +1844,7 @@
   @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }
 
-    .eyebrow, .hero h1, .hero-sub, .hero-ctas, .ticker {
+    .eyebrow, .hero h1, .hero-sub, .hero-ctas, .hero-fine, .ticker {
       animation: none;
       opacity: 1;
     }
@@ -1460,7 +1857,7 @@
     .cta-rings { display: none; }
 
     .toggle-thumb, .theme-toggle, .btn, .mock-frame, .service-item, .nav-tag-cycle,
-    .nav-progress, .crm-rows {
+    .nav-progress, .crm-rows, .quiz-opt, .quiz-bar-fill, .quiz-key {
       transition: none !important;
     }
   }
@@ -1476,7 +1873,7 @@
     .container { padding: 0 24px; }
 
     .hero { padding: 64px 0 80px; }
-    .services, .process, .webs, .crm, .target { padding: 80px 0; }
+    .services, .process, .webs, .crm, .gate, .quiz { padding: 80px 0; }
     .proof { padding: 56px 0; }
     .cta { padding: 100px 0; }
 
@@ -1509,6 +1906,18 @@
 
     .crm-grid { margin-top: 52px; }
     .crm-once p { max-width: none; }
+
+    .gate .section-head, .quiz .section-head { margin-bottom: 48px; }
+    .gate-reqs { grid-template-columns: 1fr; gap: 34px; margin-bottom: 56px; }
+    .gate-cols { grid-template-columns: 1fr; gap: 40px; }
+    .gate-note { margin-top: 44px; }
+
+    .quiz-card { padding: 24px 20px 28px; }
+    .quiz-body { min-height: 440px; }
+    .quiz-opt { padding: 15px 16px; font-size: 14.5px; }
+    .quiz-rec { grid-template-columns: 36px 1fr; gap: 14px; }
+    .quiz-actions, .quiz-result-actions { flex-direction: column; align-items: stretch; }
+    .quiz-actions .fineprint, .quiz-result-actions .quiz-restart { max-width: none; text-align: center; }
 
     .footer-grid { grid-template-columns: 1fr; gap: 32px; }
 
@@ -1572,18 +1981,19 @@
   <span class="hero-halo" aria-hidden="true"></span>
   <span class="hero-dots" aria-hidden="true"></span>
   <div class="container">
-    <p class="eyebrow">Una pregunta directa</p>
+    <p class="eyebrow">Tomamos cuatro proyectos nuevos por mes</p>
     <h1 class="wsplit">¿Cuántas horas por semana pierde tu equipo haciendo lo mismo <em>una y otra vez?</em></h1>
-    <p class="hero-sub">Construimos agentes de IA que se hacen cargo de esas tareas: trabajan 24/7, dentro del WhatsApp y de los sistemas que ya usás.</p>
+    <p class="hero-sub">Construimos agentes de IA que se hacen cargo de esas tareas: trabajan 24/7, dentro del WhatsApp y de los sistemas que ya usás. No sirve para cualquier negocio — hay tres condiciones, y te las decimos antes de cobrarte nada.</p>
     <div class="hero-ctas">
-      <a href="https://wa.me/5491130936305?text=Hola%2C%20me%20gustar%C3%ADa%20saber%20m%C3%A1s%20sobre%20LRN" class="btn btn-primary" target="_blank" rel="noopener">
-        Escribir por WhatsApp
+      <a href="#evaluacion" class="btn btn-primary">
+        Ver si tu caso califica
         <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
           <path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5"/>
         </svg>
       </a>
-      <a href="#proceso" class="btn btn-secondary">Ver cómo funciona</a>
+      <a href="https://wa.me/5491130936305?text=Hola%2C%20me%20gustar%C3%ADa%20saber%20m%C3%A1s%20sobre%20LRN" class="btn btn-secondary" target="_blank" rel="noopener">Escribir por WhatsApp</a>
     </div>
+    <p class="hero-fine">Evaluación de 2 minutos · 7 preguntas · no pedimos tus datos</p>
   </div>
 </section>
 
@@ -1631,7 +2041,8 @@
   <div class="container">
     <div class="section-head wide reveal">
       <span class="rule" aria-hidden="true"></span>
-      <h2 class="section-title wsplit">Siete servicios. Una sola <em>forma de trabajar.</em></h2>
+      <h2 class="section-title wsplit">Siete servicios. Ninguno para <em>todo el mundo.</em></h2>
+      <p class="services-intro">Cada uno resuelve un cuello de botella distinto. Contratar el que no corresponde es tirar plata, así que no vendemos paquetes: primero miramos tu operación y después te decimos cuáles dos o tres tienen sentido — y cuáles no.</p>
     </div>
 
     <ul class="services-list">
@@ -1671,6 +2082,15 @@
         <span class="service-desc">Tu sistema de clientes, con acceso privado para tu equipo.</span>
       </li>
     </ul>
+
+    <div class="services-cta reveal">
+      <a href="#evaluacion" class="link-arrow">
+        Ver cuáles corresponden a tu caso
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="1.5"/>
+        </svg>
+      </a>
+    </div>
   </div>
 </section>
 
@@ -1837,13 +2257,92 @@
   </div>
 </section>
 
-<!-- PARA QUIÉN -->
-<section class="target">
+<!-- CRITERIOS / PARA QUIÉN -->
+<section class="gate" id="criterios">
   <div class="container">
-    <div class="target-content">
-      <div class="reveal"><span class="rule" aria-hidden="true"></span></div>
-      <h2 class="wsplit">Diseñado para <em>PYMES</em> de Argentina.</h2>
-      <p class="reveal">Negocios, consorcios y profesionales que ya están cansados de perder tiempo en tareas repetitivas y quieren operar con la eficiencia de una compañía grande, sin sumar estructura.</p>
+    <div class="section-head wide reveal">
+      <span class="rule" aria-hidden="true"></span>
+      <h2 class="section-title wsplit">No trabajamos con <em>todos.</em></h2>
+      <p class="gate-intro">Automatizar un proceso que todavía no existe sale caro y termina mal. Por eso miramos tres cosas antes de aceptar un proyecto, y las decimos de entrada para no hacerte perder el tiempo.</p>
+    </div>
+
+    <ol class="gate-reqs">
+      <li class="gate-req reveal">
+        <span class="gate-num">01</span>
+        <h3 class="gate-req-title">Volumen real</h3>
+        <p class="gate-req-text">La tarea se repite todos los días o todas las semanas, y hay un equipo detrás haciéndola. Si pasa una vez por mes, no hay nada que automatizar: te conviene seguir como estás.</p>
+      </li>
+      <li class="gate-req reveal">
+        <span class="gate-num">02</span>
+        <h3 class="gate-req-title">Un proceso y un responsable</h3>
+        <p class="gate-req-text">Alguien de tu lado que sepa cómo se hace hoy y que pueda decidir. No hace falta que esté documentado ni prolijo — hace falta que exista y que tenga dueño.</p>
+      </li>
+      <li class="gate-req reveal">
+        <span class="gate-num">03</span>
+        <h3 class="gate-req-title">Lugar en el mes</h3>
+        <p class="gate-req-text">Tomamos <strong>cuatro proyectos nuevos por mes</strong>, porque después hay que operarlos. Cuando el cupo se llena, lo que sigue entra en lista de espera para el mes siguiente.</p>
+      </li>
+    </ol>
+
+    <div class="gate-cols">
+      <div class="gate-col reveal">
+        <span class="gate-col-label gate-yes">Trabajamos bien con</span>
+        <ul class="points">
+          <li>PYMES, consorcios y profesionales de Argentina con operación diaria</li>
+          <li>Equipos que ya saben qué tarea les come el día</li>
+          <li>Quien quiere entender cómo funciona el sistema, no solo comprarlo</li>
+          <li>Negocios que piensan en los próximos años, no en el próximo mes</li>
+        </ul>
+      </div>
+      <div class="gate-col reveal">
+        <span class="gate-col-label gate-no">No es para vos si</span>
+        <ul class="points points-no">
+          <li>Estás buscando al proveedor más barato de la lista</li>
+          <li>Querés "algo con IA" sin un problema concreto atrás</li>
+          <li>Nadie del equipo va a tener veinte minutos por semana para esto</li>
+          <li>Esperás que funcione perfecto el primer día y sin ajustes</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="gate-note reveal">
+      <p class="fineprint">Si hoy no calificás, te lo decimos en el diagnóstico y te dejamos por escrito qué tendría que cambiar para que valga la pena. Ese diagnóstico no se cobra igual.</p>
+    </div>
+  </div>
+</section>
+
+<!-- EVALUACIÓN -->
+<section class="quiz on-alt" id="evaluacion">
+  <div class="container">
+    <div class="section-head wide reveal">
+      <span class="section-label">Evaluación · 2 minutos</span>
+      <h2 class="section-title wsplit">Veamos si tu caso <em>califica.</em></h2>
+      <p class="quiz-intro">Siete preguntas sobre cómo trabajás hoy. Al final te decimos dos cosas: si tu operación está en punto para automatizar, y qué servicios tienen sentido en tu caso concreto. En ese orden, y sin adornos.</p>
+    </div>
+
+    <div class="quiz-card reveal" id="quizCard">
+      <div class="quiz-top">
+        <span class="quiz-step" id="quizStep">Pregunta 1 de 7</span>
+        <button type="button" class="quiz-back" id="quizBack" hidden>
+          <svg width="12" height="12" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M13 7H1M1 7L7 1M1 7L7 13" stroke="currentColor" stroke-width="1.5"/>
+          </svg>
+          Volver
+        </button>
+      </div>
+
+      <div class="quiz-bar" aria-hidden="true"><span class="quiz-bar-fill" id="quizBarFill"></span></div>
+
+      <div class="quiz-body" id="quizBody"></div>
+
+      <p class="quiz-live sr-only" role="status" aria-live="polite" id="quizLive"></p>
+
+      <noscript>
+        <div class="quiz-noscript">
+          <p>La evaluación necesita JavaScript activado. Si preferís, escribinos y la hacemos por chat en dos minutos.</p>
+          <a href="https://wa.me/5491130936305?text=Hola%2C%20quiero%20hacer%20la%20evaluaci%C3%B3n%20de%20LRN" class="btn btn-primary" target="_blank" rel="noopener">Hacerla por WhatsApp</a>
+        </div>
+      </noscript>
     </div>
   </div>
 </section>
@@ -1857,8 +2356,8 @@
     <span class="cta-ring"></span>
   </span>
   <div class="container cta-content">
-    <h2 class="wsplit">Empecemos por un <em>diagnóstico.</em></h2>
-    <p class="reveal">Veinte minutos para ver dónde la automatización tiene sentido en tu operación — y dónde no. Sin costo, sin venta y sin compromiso.</p>
+    <h2 class="wsplit">Si tu caso califica, <em>hablemos.</em></h2>
+    <p class="reveal">Veinte minutos para ver dónde la automatización tiene sentido en tu operación — y dónde no. Sin costo y sin venta. Lo único que te pedimos es que vengas con el proceso en la cabeza.</p>
     <div class="cta-buttons reveal">
       <a href="https://wa.me/5491130936305?text=Hola%2C%20quiero%20agendar%20un%20diagn%C3%B3stico%20con%20LRN" class="btn btn-light" target="_blank" rel="noopener">
         Escribir por WhatsApp
@@ -1868,6 +2367,7 @@
       </a>
       <a href="mailto:tommy2.laurna@gmail.com?subject=Consulta%20LRN" class="btn btn-outline-light">Prefiero mail</a>
     </div>
+    <p class="cta-fine reveal">Cuatro proyectos nuevos por mes. No todas las consultas terminan en propuesta, y cuando no da, lo decimos.</p>
   </div>
 </section>
 
@@ -2251,6 +2751,470 @@
         btn.style.setProperty('--ty', '0px');
       });
     });
+  }
+
+  /* ---------- Evaluación: siete preguntas y un veredicto ----------
+     Corre entera en memoria: no guarda nada, no pide datos y no llama
+     a ningún servidor. El resultado arma un WhatsApp con el resumen
+     ya escrito, que el visitante puede editar antes de mandarlo. */
+  var quizBody = document.getElementById('quizBody');
+
+  if (quizBody) {
+    var WA_BASE = 'https://wa.me/5491130936305?text=';
+
+    /* Los mismos siete servicios de la sección de arriba, con el motivo
+       por defecto que se muestra cuando ninguna respuesta aporta uno mejor. */
+    var SERVICIOS = {
+      atencion:  { n: '01', t: 'Atención al cliente y consultas frecuentes',
+                   w: 'Un agente que contesta las consultas repetidas con la información de tu negocio, las 24 horas.' },
+      leads:     { n: '02', t: 'Calificación y seguimiento de leads',
+                   w: 'Filtra y puntúa prospectos, y agenda las reuniones sin que nadie persiga a nadie.' },
+      cobranzas: { n: '03', t: 'Cobranzas con recordatorios automáticos',
+                   w: 'Seguimiento escalonado de los pagos vencidos, por WhatsApp y mail, sin tocar el teléfono.' },
+      docs:      { n: '04', t: 'Procesamiento de facturas y documentos',
+                   w: 'Lee los comprobantes, extrae los datos y los carga en tus sistemas actuales.' },
+      reportes:  { n: '05', t: 'Reportes ejecutivos automáticos',
+                   w: 'Las métricas que mirás para decidir, armadas solas y puntuales.' },
+      web:       { n: '06', t: 'Diseño y desarrollo de páginas web',
+                   w: 'Un sitio a medida, rápido y pensado para el celular. Listo en días.' },
+      crm:       { n: '07', t: 'CRM a medida',
+                   w: 'Tu sistema de clientes con acceso privado por usuario. Pago único, sin abono mensual.' }
+    };
+
+    /* cal = puntos de calificación (máximo 9, entre las preguntas 2, 4 y 7)
+       s   = puntos por servicio
+       r   = motivo específico que reemplaza al genérico del servicio */
+    var PREGUNTAS = [
+      {
+        id: 'rubro',
+        corto: 'Rubro',
+        q: '¿A qué se dedica tu negocio?',
+        hint: 'Nos sirve para saber con qué tipo de operación estamos hablando.',
+        opts: [
+          { l: 'Comercio o local con atención al público', s: { atencion: 2, crm: 1 } },
+          { l: 'Servicios profesionales: estudio, consultora, salud', s: { leads: 2, crm: 1 } },
+          { l: 'Administración de consorcios o propiedades', s: { cobranzas: 3, docs: 2 },
+            r: { cobranzas: 'En administración de consorcios, la cobranza es el proceso que más horas consume y el más fácil de automatizar.' } },
+          { l: 'Distribuidora, mayorista o e-commerce', s: { docs: 2, atencion: 2, reportes: 1 } },
+          { l: 'Otro rubro', s: {} }
+        ]
+      },
+      {
+        id: 'equipo',
+        corto: 'Equipo',
+        q: '¿Cuántas personas trabajan en el negocio?',
+        hint: 'Contá a quienes atienden, venden o administran.',
+        opts: [
+          { l: 'Solo yo', cal: 0, s: {} },
+          { l: 'Entre 2 y 5 personas', cal: 1, s: {} },
+          { l: 'Entre 6 y 20 personas', cal: 3, s: {} },
+          { l: 'Más de 20 personas', cal: 3, s: { reportes: 1 } }
+        ]
+      },
+      {
+        id: 'tiempo',
+        corto: 'Dónde se va el tiempo',
+        q: '¿Dónde se le va el tiempo a tu equipo?',
+        hint: 'Elegí todas las que apliquen. Es la pregunta que más pesa en la recomendación.',
+        multi: true,
+        opts: [
+          { l: 'Responder las mismas consultas una y otra vez', s: { atencion: 4 },
+            r: { atencion: 'Marcaste que las consultas repetidas se comen el día: es el caso donde un agente devuelve más horas por peso invertido.' } },
+          { l: 'Perseguir prospectos que no contestan', s: { leads: 4 },
+            r: { leads: 'Perseguir prospectos a mano es trabajo que se puede sistematizar entero: filtrado, puntaje y agenda.' } },
+          { l: 'Reclamar pagos y facturas vencidas', s: { cobranzas: 4 },
+            r: { cobranzas: 'Reclamar pagos es incómodo y se posterga. Automatizado deja de depender de las ganas de nadie.' } },
+          { l: 'Cargar facturas, remitos o datos a mano', s: { docs: 4 },
+            r: { docs: 'La carga manual de comprobantes es lenta y se equivoca. Es el proceso con el retorno más medible.' } },
+          { l: 'Armar planillas y reportes para saber cómo venimos', s: { reportes: 4 },
+            r: { reportes: 'Si armás los números a mano, llegan tarde y desactualizados. Automatizados llegan solos y puntuales.' } },
+          { l: 'Buscar en qué quedó cada cliente', s: { crm: 3, leads: 1 },
+            r: { crm: 'Perder el hilo de cada cliente es un problema de sistema, no de memoria. Es justo lo que resuelve el CRM.' } }
+        ]
+      },
+      {
+        id: 'volumen',
+        corto: 'Volumen semanal',
+        q: '¿Cuántas consultas o pedidos recibís por semana?',
+        hint: 'Sumá WhatsApp, mail, teléfono, redes y formulario web.',
+        opts: [
+          { l: 'Menos de 20', cal: 0, s: {} },
+          { l: 'Entre 20 y 100', cal: 2, s: { atencion: 1 } },
+          { l: 'Entre 100 y 500', cal: 3, s: { atencion: 2 } },
+          { l: 'Más de 500', cal: 3, s: { atencion: 3, crm: 1 } }
+        ]
+      },
+      {
+        id: 'seguimiento',
+        corto: 'Seguimiento de clientes',
+        q: '¿Cómo seguís hoy a tus clientes y prospectos?',
+        opts: [
+          { l: 'En la cabeza y en papel', s: { crm: 4 },
+            r: { crm: 'Todo el seguimiento vive en la memoria de alguien. El día que esa persona falta, el negocio se frena.' } },
+          { l: 'Excel y chats de WhatsApp', s: { crm: 4 },
+            r: { crm: 'Excel más WhatsApp funciona hasta que sos tres. De ahí en adelante se empiezan a perder oportunidades.' } },
+          { l: 'Tenemos un CRM, pero nadie lo usa', s: { crm: 3 },
+            r: { crm: 'Un CRM que nadie usa suele estar hecho para otro negocio. El tuyo tiene que seguir tu forma de vender, no al revés.' } },
+          { l: 'Tenemos un CRM y funciona bien', s: {} }
+        ]
+      },
+      {
+        id: 'web',
+        corto: 'Presencia web',
+        q: '¿Cómo estás de página web?',
+        opts: [
+          { l: 'No tengo página', s: { web: 4 },
+            r: { web: 'Sin página, cada persona que te busca en Google termina en la competencia.' } },
+          { l: 'Solo redes sociales', s: { web: 4 },
+            r: { web: 'Las redes son alquiladas: si mañana cambia el algoritmo o te cierran la cuenta, te quedás sin canal propio.' } },
+          { l: 'Tengo una vieja que no toco hace años', s: { web: 3 },
+            r: { web: 'Una página desactualizada trabaja en contra: da la sensación de que el negocio quedó parado.' } },
+          { l: 'Tengo una que anda bien', s: {} }
+        ]
+      },
+      {
+        id: 'proceso',
+        corto: 'Proceso',
+        q: 'El proceso que más te duele, ¿está definido?',
+        hint: 'Definido significa que alguien podría explicarlo de principio a fin, aunque no esté escrito en ningún lado.',
+        opts: [
+          { l: 'Sí, y hay alguien que lo maneja', cal: 3, s: {} },
+          { l: 'Más o menos: cada uno lo hace a su manera', cal: 1, s: {} },
+          { l: 'No, es todo sobre la marcha', cal: 0, s: {} },
+          { l: 'Todavía no sé cuál me duele más', cal: 0, s: {} }
+        ]
+      }
+    ];
+
+    var TOTAL = PREGUNTAS.length;
+    var stepEl = document.getElementById('quizStep');
+    var barFill = document.getElementById('quizBarFill');
+    var backBtn = document.getElementById('quizBack');
+    var liveEl = document.getElementById('quizLive');
+
+    var idx = 0;
+    var respuestas = {};
+    var enResultado = false;
+    var primeraCarga = true;
+
+    function seleccion(id) {
+      if (!respuestas[id]) respuestas[id] = [];
+      return respuestas[id];
+    }
+
+    function setProgreso(hecho, total) {
+      if (barFill) barFill.style.transform = 'scaleX(' + (hecho / total).toFixed(4) + ')';
+    }
+
+    function limpiar() {
+      while (quizBody.firstChild) quizBody.removeChild(quizBody.firstChild);
+    }
+
+    function enfocar(el) {
+      if (primeraCarga || !el) { primeraCarga = false; return; }
+      try { el.focus({ preventScroll: true }); } catch (e) { el.focus(); }
+    }
+
+    function anunciar(txt) {
+      if (liveEl) liveEl.textContent = txt;
+    }
+
+    /* Reinicia la animación de entrada del paso. Con reduced-motion la
+       regla .quiz-fade no existe, así que esto no hace nada. */
+    function animarEntrada() {
+      quizBody.classList.remove('quiz-fade');
+      void quizBody.offsetWidth;
+      quizBody.classList.add('quiz-fade');
+    }
+
+    /* --- Pantalla de pregunta --- */
+    function renderPregunta() {
+      var p = PREGUNTAS[idx];
+      var sel = seleccion(p.id);
+      enResultado = false;
+
+      limpiar();
+
+      if (stepEl) stepEl.textContent = 'Pregunta ' + (idx + 1) + ' de ' + TOTAL;
+      setProgreso(idx + 1, TOTAL + 1);
+      if (backBtn) backBtn.hidden = (idx === 0);
+
+      var h = document.createElement('h3');
+      h.className = 'quiz-q';
+      h.setAttribute('tabindex', '-1');
+      h.textContent = p.q;
+      quizBody.appendChild(h);
+
+      if (p.hint) {
+        var hint = document.createElement('p');
+        hint.className = 'quiz-hint';
+        hint.textContent = p.hint;
+        quizBody.appendChild(hint);
+      }
+
+      var ul = document.createElement('ul');
+      ul.className = 'quiz-opts';
+
+      /* Se crea más abajo, solo en las preguntas de selección múltiple.
+         Los handlers de las opciones lo consultan recién al hacer clic. */
+      var seguirBtn = null;
+
+      p.opts.forEach(function (o, i) {
+        var li = document.createElement('li');
+        var b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'quiz-opt';
+
+        var activa = sel.indexOf(i) > -1;
+        b.setAttribute('aria-pressed', activa ? 'true' : 'false');
+
+        var key = document.createElement('span');
+        key.className = 'quiz-key';
+        key.setAttribute('aria-hidden', 'true');
+        key.textContent = activa ? '✓' : String.fromCharCode(65 + i);
+
+        var txt = document.createElement('span');
+        txt.className = 'quiz-opt-text';
+        txt.textContent = o.l;
+
+        b.appendChild(key);
+        b.appendChild(txt);
+
+        b.addEventListener('click', function () {
+          if (p.multi) {
+            var pos = sel.indexOf(i);
+            if (pos > -1) sel.splice(pos, 1); else sel.push(i);
+            var ahora = sel.indexOf(i) > -1;
+            b.setAttribute('aria-pressed', ahora ? 'true' : 'false');
+            key.textContent = ahora ? '✓' : String.fromCharCode(65 + i);
+            if (seguirBtn) seguirBtn.disabled = (sel.length === 0);
+          } else {
+            respuestas[p.id] = [i];
+            avanzar();
+          }
+        });
+
+        li.appendChild(b);
+        ul.appendChild(li);
+      });
+
+      quizBody.appendChild(ul);
+
+      /* Las de selección múltiple necesitan un botón para continuar */
+      if (p.multi) {
+        var acciones = document.createElement('div');
+        acciones.className = 'quiz-actions';
+
+        seguirBtn = document.createElement('button');
+        seguirBtn.type = 'button';
+        seguirBtn.className = 'btn btn-primary';
+        seguirBtn.textContent = 'Continuar';
+        seguirBtn.disabled = (sel.length === 0);
+        seguirBtn.addEventListener('click', avanzar);
+
+        var nota = document.createElement('p');
+        nota.className = 'fineprint';
+        nota.textContent = 'Podés marcar más de una.';
+
+        acciones.appendChild(seguirBtn);
+        acciones.appendChild(nota);
+        quizBody.appendChild(acciones);
+      }
+
+      animarEntrada();
+      anunciar('Pregunta ' + (idx + 1) + ' de ' + TOTAL + '. ' + p.q);
+      enfocar(h);
+    }
+
+    function avanzar() {
+      if (idx < TOTAL - 1) { idx++; renderPregunta(); }
+      else renderResultado();
+    }
+
+    /* --- Puntaje --- */
+    function calcular() {
+      var score = {};
+      var razones = {};
+      var cal = 0;
+      var resumen = [];
+
+      PREGUNTAS.forEach(function (p) {
+        var sel = respuestas[p.id] || [];
+        var etiquetas = [];
+
+        sel.forEach(function (i) {
+          var o = p.opts[i];
+          if (!o) return;
+          etiquetas.push(o.l);
+          if (typeof o.cal === 'number') cal += o.cal;
+          if (o.s) {
+            for (var k in o.s) {
+              if (!Object.prototype.hasOwnProperty.call(o.s, k)) continue;
+              score[k] = (score[k] || 0) + o.s[k];
+              if (o.r && o.r[k] && !razones[k]) razones[k] = o.r[k];
+            }
+          }
+        });
+
+        if (etiquetas.length) resumen.push(p.corto + ': ' + etiquetas.join(' / '));
+      });
+
+      var orden = Object.keys(SERVICIOS)
+        .filter(function (k) { return (score[k] || 0) > 0; })
+        .sort(function (a, b) { return (score[b] || 0) - (score[a] || 0); });
+
+      return { score: score, razones: razones, cal: cal, resumen: resumen, orden: orden };
+    }
+
+    /* --- Pantalla de resultado --- */
+    function renderResultado() {
+      var r = calcular();
+      var soft = r.cal <= 3;
+      var medio = r.cal >= 4 && r.cal <= 6;
+      var orden = r.orden;
+
+      /* Si no califica para automatizar, solo ofrecemos lo que sí le sirve hoy:
+         producto terminado, sin operación mensual detrás. */
+      if (soft) {
+        orden = orden.filter(function (k) { return k === 'web' || k === 'crm'; });
+      }
+
+      var top = orden.slice(0, 3);
+      enResultado = true;
+
+      limpiar();
+
+      if (stepEl) stepEl.textContent = 'Resultado';
+      setProgreso(1, 1);
+      if (backBtn) backBtn.hidden = false;
+
+      var veredicto = document.createElement('div');
+      veredicto.className = 'quiz-verdict' + (soft ? ' is-soft' : '');
+
+      var label = document.createElement('span');
+      label.className = 'quiz-verdict-label';
+
+      var h = document.createElement('h3');
+      h.setAttribute('tabindex', '-1');
+
+      var p1 = document.createElement('p');
+      var cortoWA;
+
+      if (soft) {
+        label.textContent = 'Resultado · Todavía no';
+        h.innerHTML = 'Hoy automatizar <em>no te conviene.</em>';
+        p1.textContent = top.length
+          ? 'Por volumen y por proceso, una automatización te costaría más de lo que te ahorraría. Preferimos decírtelo ahora, antes de venderte algo que no vas a usar. Lo que sí te sirve hoy es esto:'
+          : 'Por volumen y por proceso, una automatización te costaría más de lo que te ahorraría, y preferimos decírtelo ahora antes que venderte algo que no vas a usar. Escribinos igual: en veinte minutos te decimos qué tendría que cambiar en tu operación para que tenga sentido.';
+        cortoWA = 'todavía no califica para automatizar';
+      } else if (medio) {
+        label.textContent = 'Resultado · Califica, con una salvedad';
+        h.innerHTML = 'Sí, pero <em>de a un proceso.</em>';
+        p1.textContent = 'Hay con qué trabajar, aunque todavía no en todos los frentes. Lo sensato en tu caso es automatizar un solo proceso, medirlo un mes y recién ahí escalar. Arrancar por todo junto sería tirar plata.';
+        cortoWA = 'califica, arrancando por un solo proceso';
+      } else {
+        label.textContent = 'Resultado · Tu caso califica';
+        h.innerHTML = 'Sí. Tu operación está <em>en punto.</em>';
+        p1.textContent = 'Tenés volumen, tenés equipo y el proceso existe. Eso es exactamente lo que hace falta para que una automatización se pague sola en los primeros meses. Estos son los frentes por donde empezaríamos, en orden:';
+        cortoWA = 'califica';
+      }
+
+      veredicto.appendChild(label);
+      veredicto.appendChild(h);
+      veredicto.appendChild(p1);
+      quizBody.appendChild(veredicto);
+
+      if (top.length) {
+        var recsHead = document.createElement('p');
+        recsHead.className = 'quiz-recs-head';
+        recsHead.textContent = soft ? 'Lo que sí te sirve hoy' : 'Lo que tiene sentido en tu caso';
+        quizBody.appendChild(recsHead);
+
+        var ol = document.createElement('ul');
+        ol.className = 'quiz-recs';
+
+        top.forEach(function (k) {
+          var s = SERVICIOS[k];
+          var li = document.createElement('li');
+          li.className = 'quiz-rec';
+
+          var num = document.createElement('span');
+          num.className = 'quiz-rec-num';
+          num.textContent = s.n;
+
+          var cuerpo = document.createElement('div');
+
+          var t = document.createElement('h4');
+          t.className = 'quiz-rec-title';
+          t.textContent = s.t;
+
+          var w = document.createElement('p');
+          w.className = 'quiz-rec-why';
+          w.textContent = r.razones[k] || s.w;
+
+          cuerpo.appendChild(t);
+          cuerpo.appendChild(w);
+          li.appendChild(num);
+          li.appendChild(cuerpo);
+          ol.appendChild(li);
+        });
+
+        quizBody.appendChild(ol);
+      }
+
+      /* WhatsApp con el resumen ya escrito */
+      var texto = 'Hola LRN, hice la evaluación de la web.\n\n' +
+        r.resumen.join('\n') +
+        '\n\nResultado: ' + cortoWA +
+        (top.length ? '\nServicios sugeridos: ' + top.map(function (k) {
+          return SERVICIOS[k].n + ' · ' + SERVICIOS[k].t;
+        }).join(' | ') : '') +
+        '\n\nMe gustaría coordinar el diagnóstico.';
+
+      var acciones = document.createElement('div');
+      acciones.className = 'quiz-result-actions';
+
+      var wa = document.createElement('a');
+      wa.className = 'btn btn-primary';
+      wa.href = WA_BASE + encodeURIComponent(texto);
+      wa.target = '_blank';
+      wa.rel = 'noopener';
+      wa.textContent = soft && !top.length
+        ? 'Escribir igual por WhatsApp'
+        : 'Mandar este resultado por WhatsApp';
+
+      var reiniciar = document.createElement('button');
+      reiniciar.type = 'button';
+      reiniciar.className = 'quiz-restart';
+      reiniciar.textContent = 'Volver a empezar';
+      reiniciar.addEventListener('click', function () {
+        respuestas = {};
+        idx = 0;
+        renderPregunta();
+      });
+
+      acciones.appendChild(wa);
+      acciones.appendChild(reiniciar);
+      quizBody.appendChild(acciones);
+
+      var fine = document.createElement('p');
+      fine.className = 'fineprint';
+      fine.textContent = 'Se abre WhatsApp con el resumen ya escrito: lo podés editar antes de mandarlo. No guardamos nada de lo que respondiste.';
+      quizBody.appendChild(fine);
+
+      animarEntrada();
+      anunciar('Resultado de la evaluación. ' + label.textContent);
+      enfocar(h);
+    }
+
+    if (backBtn) {
+      backBtn.addEventListener('click', function () {
+        if (enResultado) { renderPregunta(); return; }
+        if (idx > 0) { idx--; renderPregunta(); }
+      });
+    }
+
+    renderPregunta();
   }
 })();
 </script>
