@@ -280,7 +280,7 @@ details[open] summary .res::after{transform:rotate(45deg);color:var(--sand-ink)}
 .st-4{background:var(--crimson);color:var(--ink)}
 
 /* Precios: pestañas con radios, sin JS */
-.tabs-in{position:absolute;opacity:0;pointer-events:none}
+.tabs-in{position:absolute;opacity:0;pointer-events:none;clip-path:inset(50%)}
 .tabs{display:flex;flex-wrap:wrap;gap:8px;margin-top:40px}
 .tabs label{font:400 var(--t-mono)/1 var(--mono);color:var(--ink-3);padding:10px 14px;border:1px solid var(--line);border-radius:var(--r);cursor:pointer;transition:color .2s,border-color .2s}
 .tabs label:hover{color:var(--ink-2)}
@@ -393,7 +393,7 @@ footer a{text-decoration:none}
 }
 
 @media (max-width:760px){
-  .w{padding:0 16px}
+  .w{padding-left:16px;padding-right:16px}
   .nav ul{gap:14px;font-size:12px}
   .hero h1 br{display:none}
   .day .row{grid-template-columns:52px 1fr;padding-left:14px}
@@ -420,6 +420,19 @@ footer a{text-decoration:none}
   .url{justify-self:end}
   .main{padding:16px}
   .mock th,.mock td{padding:12px 10px}
+  /* Aire en celular */
+  .row{padding:20px 0}
+  .row .d{margin-top:4px}
+  .ticks li{padding:12px 0}
+  .inc li{padding:9px 0;line-height:1.5}
+  .inc-h{margin-top:44px}
+  .notes li{padding:6px 0}
+  .crit .row{gap:16px}
+  footer p{line-height:2}
+}
+@media (max-width:400px){
+  .nav ul{gap:16px}
+  .nav li:first-child{display:none}
 }
 </style>
 </head>
@@ -1182,16 +1195,3 @@ footer a{text-decoration:none}
     say('Resultado de la evaluación. ' + label.textContent);
     focus(h);
   }
-
-  if (back) {
-    back.addEventListener('click', function () {
-      if (onResult) { renderQ(); return; }
-      if (idx > 0) { idx--; renderQ(); }
-    });
-  }
-
-  renderQ();
-})();
-</script>
-</body>
-</html>
